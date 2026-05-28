@@ -1,0 +1,257 @@
+{
+  "universities": [
+    {
+      "id": "10000000-0000-4000-8000-000000000002",
+      "name": "Adama Science and Technology University",
+      "location": "Adama",
+      "logo_url": "https://api.dicebear.com/7.x/initials/svg?seed=ASTU&backgroundColor=004488",
+      "is_frozen": false,
+      "created_at": "2026-05-27T13:13:16.006Z"
+    },
+    {
+      "id": "10000000-0000-4000-8000-000000000001",
+      "name": "Addis Ababa University",
+      "location": "Addis Ababa",
+      "logo_url": "https://api.dicebear.com/7.x/initials/svg?seed=AAU&backgroundColor=003366",
+      "is_frozen": false,
+      "created_at": "2026-05-27T13:13:16.005Z"
+    },
+    {
+      "id": "9db3d126-c5fb-4fcb-ad6a-0baf8d555237",
+      "name": "arsi",
+      "location": "oromia",
+      "created_at": "2026-05-27T14:19:52.852Z",
+      "updated_at": "2026-05-27T14:19:52.853Z"
+    },
+    {
+      "id": "10000000-0000-4000-8000-000000000005",
+      "name": "Bahir Dar University",
+      "location": "Bahir Dar",
+      "logo_url": "https://api.dicebear.com/7.x/initials/svg?seed=BDU&backgroundColor=0077ee",
+      "is_frozen": false,
+      "created_at": "2026-05-27T13:13:16.006Z"
+    },
+    {
+      "id": "10000000-0000-4000-8000-000000000004",
+      "name": "Dire Dawa University",
+      "location": "Dire Dawa",
+      "logo_url": "https://api.dicebear.com/7.x/initials/svg?seed=DDU&backgroundColor=0066cc",
+      "is_frozen": false,
+      "created_at": "2026-05-27T13:13:16.006Z"
+    },
+    {
+      "id": "10000000-0000-4000-8000-000000000003",
+      "name": "Hawassa University",
+      "location": "Hawassa",
+      "logo_url": "https://api.dicebear.com/7.x/initials/svg?seed=HU&backgroundColor=0055aa",
+      "is_frozen": false,
+      "created_at": "2026-05-27T13:13:16.006Z"
+    },
+    {
+      "id": "9bf7d567-177b-421b-bb6d-538382c7bc69",
+      "name": "JImma",
+      "location": "Oromia",
+      "created_at": "2026-05-27T13:52:26.822Z",
+      "updated_at": "2026-05-27T13:52:26.823Z"
+    }
+  ],
+  "users": [
+    {
+      "id": "f0000000-0000-4000-8000-000000000000",
+      "full_name": "Root Administrator",
+      "username": "admin",
+      "password": "admin123",
+      "role": "SYSTEM_ADMIN",
+      "student_id_number": "SYS-ADM-001",
+      "is_verified": true,
+      "account_status": "ACTIVE",
+      "settings": {},
+      "created_at": "2026-05-27T13:13:16.006Z",
+      "bio": "",
+      "avatar_url": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxMTEhUSExIWFRUXFRUVGBUXFRUVFRUXFRUWFhUVFRcYHSggGBolHhUYITEhJSkrLi4uGB8zODMtNygtLisBCgoKDg0OGxAQGjUlHyUtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLf/AABEIAOEA4QMBIgACEQEDEQH/xAAbAAABBQEBAAAAAAAAAAAAAAABAAIDBAYFB//EAEkQAAECBAQDBAYECgkFAQEAAAECEQADITEEEkFRIjJhBUJScQYHE2KBkWNyobEjM0NTgpLBwtHwFCRzg6Kys8PhFTSj0vE1Fv/EABkBAAMBAQEAAAAAAAAAAAAAAAABAgQDBf/EACQRAQEAAgEEAgIDAQAAAAAAAAABAgMREiExMiJBBFEzcZET/9oADAMBAAIRAxEAPwD0+FAgxkdhgwHgvABh0NhwgAgwWgQYAMGBBhAYUICDACEECMV2/wCsvB4d0ozT1h+GWAwPvKNoxeN9b+LL+ywqEB6ElSz00EPgPaoBjxvsz1vYp0+2woWh+JSAoKI3As8em+j3pNh8YgKkrrqhVFpOyh/N4OA60NMPMNaEAhphxEMMACBCMAwKKBBaBAAaFBgQADAgwDAChQ14UIFDngCDDSMGGiDDB0OEMhwgB0EGGwYAeIcIaIcIAixeKRKQqZMWEISCpSlFkpAuSY867a9Kl4oKSh5WGUCAA6Z88WKlK/JSzokcRFymqY53rB7eVicScMhREmQopUAWE2ak8WbcJIIA3Cjs3KEx6CIzz6XbTq673SJloAyJlpSnYAAQxOBGgi3g8MSQ+sduV2aNzGS216Exxx7M2jDBOkTylJcUYiykkpWnWihUfdHcmYFNdY5GOw7Q5lYMsMc5w7nY/ppNkLCMWr2shRATPygLlmtJwSGItUD/AI9GSQQ4savHiGZwULqCGaNj6su2zxYCYpzLTnknUynZSCdcpIboW7sasMuqPO3auit4qIzEioYYtzNhQYDQGEKFChA2FCJhQAIBEOhpgAQIMKEAgw0GCIZHAwRDRCgB8GA0AGGSQQRDAYcIAeIg7TxfsZE2d+blrX5lKSoD7ImEcf01W3Z+KP0Kx86ftgDxXs9wHJcquTqSXPxjqYQVjn4dNB0oPuiU9oiWWuqjCM2znK9no6eMceWtwkpm0jsSkKYVfzjz5PbGLKXlS1KALOWDW3qfOLXZnpVNUrLNGVTszNE9FxnKpn1XhtJiKtv/ACY5OPw32RH2t2wUJC9csY/Edu4uaXlodI1t/P8AxCmPV4Vll0eXXxSCIHZOMMnF4aaO7OSg1Z0TSJa3+Cn+EcuX2mpvwgarF/vB1iXGoeWpr5SQ24BaOmuXDLu5buM8ez31QhhhSpuZKVeJIV8w/wC2ETGhgAwIRMNBhGLw0mFCgAQYUDNACMNJgwIQCFBzdPtMCAGgwRAaCIYEwoQgiAhEKAYMMhaHgxHmg5oAlBjH+nPpNhkysRgiomaZJoA4BUHSFVetPnGsCo8f9YfZY/6jMmarlIUG1ZKUfuGJyy6Zy66sOvLhxSglICdtY5mLXNSoAJFwCoiz7v8AwMdyTcE0/ZHQnYLMcyW8t4z9XTk3TDqx7OLgRiyVpXNCUAKKFhQyLJbIEozO93f/AOhMiaVJVMIJBAo9XHkLeQjU4Xsckd1IOocmIJuGSJoliwY9a3MPPZLPA16rL5V/SUfgZbC6Q8cabh54BCFhCQklLlgpQHCKFwDu9No2PbeFGQbD+bRSw+AzIdJYjo4PnEa8uHXbh1Ri1Tp2VJmJQSSwSk5lANdTEgj4jdo6mFSctbEFo6mK7MINcv2/FnMMUkBkjSKy2dV7OU1dM716B6KemEietOESFpWiSkgqbjCAlKiQDwnpGqMeV+rrAt2gqYBQSCX1cqb9sepvGjG8zlh24TDLiAYEJ4a8NAwjAgGAAIRgwDAAeEYUAmAE3SDAhQAAYMRZoWaAkoggxDmgFcBpwqATEOaFmgJM8F4hCoOaGErxk/TvDJKUTmqg5T9VYN/JQHzMajPHK9JMMqbh1oQAVHKQklnyqBZ7VbWkTnOcavXlxlK8iXOL/ExfwGINjQRRxElSFKSsFKkmqSzh6t9sWpSXDxl2PR01psLjwlBA/hGc7Q7ZTImgroskHoHDiugi7hFJHMaCvyih21h0Yk8KASHTm2tckilTrDwkvnwvbl0+PLo9s+lKDKdQApYVJ6UvA7J7T4QtPKo6/fGU/wD5uaKlSModnmJIJowoWVrTpVnjryccED2a2GxB4erG1mNN4vLXJO15rnhuvPynEdzHYgGONmLv5n7IkWonWkQqVzdBHLGd3Xbl8W89XiOGbMapKEP0SnNT9f7I2OeM/wCi+CVJkBK+ZyWuz6E7x2QqNeM4jys7zlasZoQMRAwc0NKV4aTDAYTwA+A8B4MAImEYTQDAChQoUAVAuC8NeATE8mc8IGGQYJQkBg5ojeCIYPhPDUwTDIc0MmikOgZoaXnHrAwRRNTPbhmJyk++gUfzS36pjMyMW0em+mElK8LOSoWQpQOykjMkg7uI8aTML5SWP2Rxzw5a9GyyO3jJq1BkVKg16P16RQw6cpCZ82YwpwZRlO4BH2wMJnBqfKOocFnDrI+UTMujs08dd5+1ibhcOEuMVNL2Dykk0FC4pppHHODL5krLCrEgg/YK9RtHZ/6PhkhwXU3hF4hnYbKLw7s/R5YTjujVNypSHc3Pxjo+jmF9rOQlnD51fVQQT8yw+MZxZYmsb/1fS0+yWoc5UARqEgcI+1R/+QY493Ddn8eG1lGJgYhTD0x2YkoMPBiKHBUBpHhPDAYeICOEF4a8J4DF4RMAmBACeFAhQBVgGFCEQYgQRCEOAgANDgILNU2jm4z0hwsuhnJJ2Q6z/hpFSB0ssIRkcd6dIFJUoq6rIH+EX011jMdp+lOJmv8Ahcoaol8IA6qGlLk2BO0VMaVen4rFS5YeYtKBupQT98cHFemmESWSszD7iS3zUw0PyjyudOWtTua2qa6uX+bmgG5MToRlFi5uQlWm/wA/gH2MV0iO56Z+lRny1S0DJL1cspTcRcizM7DaM3232cUrUkXDEG2ZChmQfNj94gzQSDQ2L0U56ENuANOaNpM7O/pWEkqSxmiUkobvsGmSupzJJHyDBUP/AJ242zzBNkxykvivOMPilWeo3ofjF4drKAZQPnDcf2cFcQ4VbjWOSqYuWWIeOMmOTVblg7Z7bpS+8QzO1iQwPxjknFk0CYsYLBlRddtv4w+jGeS68su0WcIgqOY23/hGl7LxysFi5aqlM3Dy1rR0WVZW2Zkl/e0eK/YHZf8ASJwlCktIzzVeGWlnHTM4SPMmrRd9Nw+KlsG/ACmoGdZCQC1cpPV2u0ddeHONzcN2cmUw/wBeldmdoSp6c0tT7iyk+Y0i8BHjMjErQp0qKDuCQR8Qen2eUdbC+luLlsDNCxstIJNLPfY+X2zwnh6m0OAjB4X1hHv4cHfKogjzBBp1f7I7GD9N8KvmzoPVOYfNLn7IXFDTAQYhweLlzQ8taVj3VAt5jT4xO0IBBhNAaAETCeAYRgAwIEKAKzwhAjn+kPaBw+HXMHNRKfrKLA/Cp+EQa1j8fLkJzTVhI01KjskCpMZHtH08J4ZEtveXVXwSKfaYxWInrWslTqJqSQok31bXKRa7avDSo2dv4BqgFjqlVHuY6zAOnjO1Z84vMWpfQlgDTuhgLi28U3O6fIuL7t/PNsIiIHe0DkGrXfnANhMF9BDkFrqtUsT72Y0WfDM/Wi+CnBxl6tQasNavxG7Ha6xtDVpsDrvQXZgSALsnhSaJMOFw7Zrm136lSuYmw/JwhMLG9fN8ravxcu5TVcPuOyOXLdXTmLg1D0d6ly5JVRmpSJCHqBme1VF9rkCoP/l6RIlDDqp1HKPIEJAfcIBD1UeKGqS7uUk6kN1LjmPjI6IRvCH1wgI8+lqkMQWzG59kbHmjbeicwf0WWxPAVJvUZVZFfuq34gPPIFwHYjyJYFywrlcAvvSUKRsfQrBf1dnYZ1pHmkqA+aVZTw/CxGjR5sZ9/rKsdp+jiJ5K0ES5t1C0uZuoeFV306XbE4jsl9AoVqGV/wAxuO3saZWEnrJKSiUsEgl6gpS1XBcpYk3GtCclIxXtZKZqQ2QmRMZYWnMhmUlYopJzM4LUSA8cPytEk68fLR+F+RbZhn4+nHV2WHoGg4pHsk2CY7GY3zRypWKmf0gKlpC5iMpl5mKBMVMSlBWDoOI9MruGjHql2ZTF6G7LHVhcm79HOyfYYZCVJadPyzJr8wTX2cuuyVFx4nEcT0xkEzUzB3iUjYAMEE0tmD1Boa7xs5SzNWpZNSWp/wA/NmY/N836fpDy9A7eSUpVuKEOVNRm0vHsZ4zHXxHhY53LZzWRcaFIHmmgZwG6Bid6CHqS4L/HSgfvCjhj8lNpDyTuRr3muSSHBBYuq+iN4UsMXGl7Fv1btl1FfZnxRirbEQpWtN6Fq2UKPQ/EHeHKT5bgmg/WS4IqP0VdIemUEmlBcFINA4BAKTVjlNjQaPDgAHABcVaxrmoyWV4022gPjgyTNUkhSCUnRQVUN1FdD+qrpGi7N9NcTLYLImjZfN5BQq9Dd7HzjPXLAA6u2YuGqbK8CqjVUBj4Wf3SmuxJPw8kq3hB6n2N6W4eeySfZL8KyGP1V2PxYx3iI8MJB+Ldb28y/wAo7XYvpTPwxCcwXL/NrPVmQbp6aUMTYOHq5hpjlej3pHKxYOQFKk1KVM7WzAihD0jrqiSNhQoUAVYx/rGxfBLkjUlZ8hwp01dXyjYiPK/TTE+0xMzYL9mLFglkbHvZtrwsZ3U4jAEKIrlJYp8JCvzfukeQhxQxyswolrXJlmjB7J7piGdyKLa6NqMlWUNVTDbSJE1NNSdrsF6MPtMd0LSDucrkP3dswujwzNNYUw0IKrsOYa5En8rvMVD8NLJ6PmNHHMwFgn88flEs0KyvWpJuvX2ixv7kLlUxqqic4LqZ2HMBQjMT+N2Mw/CHypbzGblqA1MxIIDNZykOArkNRDUuD0BXqqwJ6julQhs4zZRdsyVczHiSXylaQpICq5y1TS4g5+ik+0wLlwTWyhVwAWU1XYBS7KqU1EFRNqPThI1oAkDNocg5fyat4jkTQriSygasNeXhIJ4iPwaLK5VCJiCNX1D0PCkqBIoSXSs8p5jDK9zUIAI5WuKVygJbYngKri7xuvQdP9W8phTpcF17delYw5AHD7xDWpmUnlppNT3I3Xq9P9XWTpOWdqqlSldNVH+GsddF+Tlvk6FTt1Rmzpsoy1CVllfhCnhUorkqTlK0hK0qClgitJZfmDcntzG/0Uy8AiSgypqFFKgyQj2asy+EPmPADmfvE1q+8OG4kkqDIByjh4VKpm5nev3udsX60Oz1CXKxcoDNhlsQcxAQohDF+YcCQdGUbvGnZOcLIy68uM5XO9kMtom7N7LCVS1pObNOSVcBRkATkTLchiQoqU+omUi32Mj2stE+XK9ogsUoUogO1QoiqspBSW1SdL91eFVNHGACs1AcNwscjjMH87uRGT8P8fLG9eTf+d+TjlJhin7Jx8tedMtQzJzAhiA4UpByvzAKSUkcQ8njP+sR0iWod1QI6HLPPiZ+Cz/CNFgOzlJWtQTKZZSVLEoJnLIt7RSAQtt2H3xw/WOh0I+vLTr3kzw1D79n/R1jXt9KwaveMkUsdi5tleljQivCwckky0dYapLXYbPXUNlzCpoGrXLL8UP9o1SdHudpq7FfvJ7pgEZaWqwuly7AAsnU5aJPdL8NcMehTinMMp265WZrVKksfeGVQs0RgmguaUoanVhmFFJBcJbivD0/bezClc2Vno5LFNitL8MVsXiUuEvxqplu2xN8xCgA7KcEVpC+z8xMSG90bsQEs7VzJHApQuOW0NU1bXFgjUlKuUHaYf0oUhbspnDfGnHld6cKlhs4taKePn5WBNixJrbhdyVCpc3F4KU8crIW9d3D/WL3fQDUjyhk6YySRahFwGPCKsBYK11irJmHhe9L0NMyaOQfkoxJLUCUpsWSp6AjKkMovlNzvD4HLQ+g04oxskWCnlnq6CGoDqE94/dHrShHhOBxOWamYnmSpKxY1SQWoDZgL6R7qmYFAKTZQBHkQ4jnkZQoUKJDn4jEBCVLNkpKj5JD/sjxjGTCtTnmU5NQ7qzKGoNzHpvpjicmEmNdWVA/SUAf8Lx5fiFEKJrRLtxdxtv4Q9fkXwdhgpQIrUK8Rqqg8X50n4RWk4guC9XfXRCQdX31AicIynMGoNcvdCwOZA8KfnFLEgJXlDMCAGZq5kk0oKjz2aOsTXYwwYEsOEUoO77Q6SzohOsO9kkMCBQNZD09mjwDQLiOSp0lyKsKlPeEpGsx7qVDpqyQSNtH1E1Wk0+JMBq8vSmiSbVIqocmwMXkBwQPqkhhQApJoU6JmKqk8wigqYyn0Cs1diK9/rF7CuUJcOUnKdSyVBJPKo2mK1FoKUJMhIUSkJClEpJGVzzJFElQoUo7usSldNWfME2cFpjZaaKUGyG0JSjUO6mBYl65dionnk+HvQ4DQChFuUMC7Mco5Jh7ptBBURS3A7UYVaoeW7OnUSzyxuPVwt5UwfSBWgPElBbQ2jEFBAAJCTy3ZyXRZ0A8aEGxvG29Wy6TwDTMDrZVRY7EC2kdNN+bnvnwa0ud+Ik96wFIpdp4RMyWtCw6JiSgp3zcL2uXAdjpWL2UUp3DoNfNEQzmypFGYuA22rU+YjYws/6O9n+xw0nDgP7OWkkjVRrMVYg1Uu7Gsd0SxmCXGUAClASHalqMdDe1oyvZy8WnHqSQr2BJL/gxLCMqQgpNF+0zUIKmYmhYGNhJLsd1Eln8I1DfaYfIsBEoNbvbfxRGQ9Yg4OroIvcZm0e7WEbKWocNqqUbp0/SjH+sP8SlQ1LtSuQvYAv8jeJ2etVr9oxSaBqgE9QGdj4BySvtghTBShQkXsCWzVIygjNMF1mDKw7MAKMz0H0YLhKdErN9YD0CmqTnJ11mMVfqBvaRglejZVLHyJjMiZlALsWdgS2TNlFcijY85qxijhezgCXU5NCSoF3ZNeIuxKdDyx2ilgQCznK4LDuy7goBLlZuYE81zEkAsHdQHF7RROgLBQ1PlAEeHUQDd0srKHdudmAKgKTE1y+UcvtEnOBUi3eJYUe5Oj6+UdazOAH0LAZndLZgBzpUOFB5rxye0JdU6BymoYMQybpT3WN9TBwXJ8ogB7MHOWvhJfKN0qumHYSWQkqDM+QXDBLJUzUrn0IFOkV8RMZJJFaM7k1Z2Br+UVZWkWJ4CQzOUi7GpTnBJ/BasjWCiVEhyXJ3O5qSdVHrHtHobi/aYOVukGWf0Cw/w5Y8YnzdnABtxAeAap6/OPRfVXjXROlPYpmCo1GVWp8KfnEZQ+ezdwoDwYgML6eTfwcpD3mFX6qW/e/mx86xKg5dq5h3dg+gjc+nc5lSxslR/WIG48MYWcXBHRVt2VsroIrWrLwdKUC9WqKg7iVtMHiMVe10WU7ulnqdZi6kqOzU3iQ5kl2JGYaKpVPunRMLFLeXRNQAXZT0Qr3BtvHSIro4KYcoobvTPoZi+6hu4IkW9mN0ir6GUnWX0VFXATOFIpUa+z7wlp1U/fMWpk0kUIrmPc19qrSZ1T/Ng+ynV23BBvpTwdIudnKBK0EA5stCUsHBlqo1yehNIprUXP1zoNVPouLMlRBBrc+Jjm4kvVrg3I+yAvDpKnkZSeFw7WqyZrAKKfCscusMVQAE0BbYM5R7gIyTEnW0JCmcp5Qc1AQGCgtuAJHLNUObSAJbuBqGJG7KlEko6pQeeEfJi34moTUd0OQ4qMgPHL3VfrGv9XS+LENbIg/MkjunQpjHiZZYuQSWa7CYASn6qxVesar1dqHtJ4pSWAGINphAZl+HLHbV/JHHb/HW8URWoogeHfooRW7QcAXoU+LXKNX+/wCdotTn4r90d79oIipi0gk2/wAOgfQg6RsjCOGDMl7cRYjzFl9RpEiVV6gHZ3Jy+8dIaAcurqKU9/8AakwczqarHiPMzAk+6NoAmYilaJCRz3VfaMl6yA0lJ2WlIvtnNyfB0841KVC9NVnk15RYxmfWAQMK9HStC7pHE56DQnURGz1q9ftGCSh6BjXK7AlvxbuEqagmG4iT2ne0SHJuzj2hDupuFKBzC8NlJcAXyi/MBQSwXdbVKzdMLOCAp6Evmfuk5mzOe5LAosXtGH6ehPJ6fkd0skE8tCFAUVMPeNopdoFynK/ESqxtYOpIcjKlIdzFpRIc2VYPQkgPqUk8c0d5VorKlgrUGBbhDgEjKwdshPhVbuXMLhXJ8rMxAcE2LKFaVLBNlBBqrvxz+0WLFJFWZiLEa5SqwUne0dFwK5QCKswdxcVN3PzL6RR7VmFQUNLd5rgqbi3f5CHKVilLIJQNCoKIozAubHKecaA0iTHJBHdfKfDcAJ8O4MR4NZzFeoCk36ZjdSTctXaJEArUXs6hf3yfzm33QUpFX2JBLDXRPvDZHvbxufVjPIxKk14pShrdKknU7DaMpMSGcgVCT3DurdXSOv6v5pRjZWxzp/WSrZI1aFkcleyPCiLPCjkbzr1gr40DX2ZOtio7A7GMQpTXfW76eaesaf07nZsQR4UJTpqCdfrRkprMbcq/DuPKOmELLwuIKS9tBX2evsxqB4oixSU5VEFNRZ5fgWacfWGyVKSpwSRmFirSYjZXuCH4iY8s83L9J+bi4lZ7LWQAz0CDTO1Mx0S3cEX0JLpHFYC0zT2SblHVUcbCKGUu3J7vhmjvK6x0/apBJ4aOfyXimHRQ/Nj5QTyPpSmGj75DXqlJ1QInw4ezA0FAkmnE4Yg8uaIJ9Cw0CLdKaK6RYw4sDYu7mmiDzgjlUrXSEHRlAKbqB1IDmWb51cq0aD4QFKJZ+Yh2NwSlxRWZQ45R7oqYikzOAOLuGdOUBaTlDZsl0y7PEpn8JUKJBzgixDpm34U1zLFzCUCg9Wspw9wnMFFszq5ZirBMab0ALTZwdz7JD1JqF5KuVfmxdoysxLuk2PDpluqW2iLFHijU+gRJmzCxrKSqytVS7UTrmsI7afeOO7jorezCHNqzAO49G8jEGLVwqJ3VcnwnxA/fE6lEKqfyhuVC6feBEV1PlS3iLs9S48Bb7BGxhPDBQ5eEP3P4iI03ajkJSOXUAnc/fHD9JO0cVKnpEpKygoAKUy1LExZU2RSyfwYyuXGoGjt35jiYweiZh7+gQnYddvjBDsTBRNasSVd/lRbaMv6fTP6sMxY+0QouVAanLVfhCtY0KgACKcstPcF73JjK+nSwUID3xAtlsmWoHkKTYnWI2etVr94x5CmJuRwgu9QGoVGnHMNliEUh2du65oSCQgMSQTwy1d5V4bm5SXzHjYvmoDNPhVcpHeEPD8SRU1S1z3ZQcBjzKWXKTGGvRnBsssAwZznKbE8000GV6qQOVUVpNEnMzAm/KQB72VNs4ok2i1MWljpR2BDMVFXIW7sod03ivJSUgOCDQG4q4oVKIUoZidQGXaCFVPGTcuuv3VUaS2qp4ozZalIoN+IgEWJqQkbNFxYHQs/MUq1OW6iHIr8YrT2qaEt7mx2gCPs8shI4uWwzMeDVj0i7OnGvNdX5z6b+fhHNRKoCE93Z+6neV1iRSNwO9on6U/m+sOwpRmzSTc31KrHzUNou+jmICcTJVSk1HhtmrZ4pKIFE9bdKaI84UhTEF7Gjnr1XCpx77WFHJ/60ncfMfxgxx4Pl5p6Tzs2JmmvORc93hpUbRxVCmtljU95OxMW+01ZpizupStauoq0TFCaoMSWso2GoCtUjVMdMYMqKL/EO4+kJ1T7sHEykezLlLhO0v839WGCdVktzDw/nAdFDcwJy1GWam30ngQPH1i0pOzJgYAEtwJo/iI0T1jqBZKFVXy/SXMt/D9JGd7MXw10UNtFvqY7GHKW7t0j8n4pSfHsmDjuOex2KUCVV+fSYo6p96JsLLLMDdgCHB4jkNUH33tp0imouxr/i1Qk6KMW5KXIGulASC2TcKuoH4QjWwplKNSWzhqnxgApRmsgbc3WJVgBbG/wzMFFHvL5Zo0HwiuqaApJUQxNiTY2cTGZkIepPlDgeEAPZjdqoUjQJRzS073gBoPEnxMxvm5HLsSrmkm5SI0/oGB7ebQfiiPyZtOChq9lbmMtnDg93MDplIUpKqWTacbBUar0HP4aa7/iUXJaqkJpnAHc0Ajtp9447vSvQVAgmhHGmwWNOhMV5odJ14/dV97GJyipp3093YDwqiM6A6rUalrfXH7Y1xiJIBy0HEok0RYE+9EMwgnMQORWie8p9VdIkkTOFJ2lPcasfB1iGapgziyBzJ2+r/wAw+4TLWzsdZYooafVTGO9YMx5csPectnJ1SZY5kt342SlEq1/GDWZoOgEYv06JCZB4vxizaboFK33SI57PWr1e8Zgt+hTw5cpW9WzI5ZWoF4YFHKl9s7UyuE5u9mTzzRZQtAUl8wetUivEKJlDwrFVL3iVB4idmVTmbMtZBbKq0tNwYw16EVsbNISGBIK7B2yoZNnUliJatrw+ZIZwluh4LjhBpL6Sj8Iim0WApg0sOSUguMijVSARdehPWEJTBhmLUcmcuwyi+UXloP6UBopoJqHbmutmNE1YB2AiljCyS5J1LFbamriv2RZnj5fCwLJFV1p98c7EKASq2ng6bKg+x9DhZ6cqbW3l+FPvdIM9YNiBfVP0m0yBhVHIL29/w9D0h81RrfvaTPpYaUASHq2p7p/aqHyiXDPfR9+iRCKzforxbjciEFVuKfV89M0KnHZ/6ivc/wCL+MKOdlP8v/6QonufYsTMDvsfdt8+sVmuOgFH0K06K8oszQXIrtdVlHLEKgbncH/Io3T9aKxLKGZjtr73uK1SYixAGXT5I+jHgeBNU2g18OiVDQjwCBiXKej/AL/9p02iomoOylHKr63XpsI7kh215j49FTT4CO6Iz/Y+o94bfx6R3cOKCmp0T4Zx8cF8lPAFOlLseUlxw2IBtFyWTvXQHxGlpga6kG+kV1dSdq5g405nGu8WZJbpc6pDhgk6puqWfhErSYkWABADEfjEtmIQnxJ5EKLgvWJZjByTXnGqu5NI4io3SuwF4rzA6SwYFwCARQ/gwXlEiwWp21h8k5kgg0UAGDtdSTRIAFJoudIKIS7qAHFlIer2mJFKq/JpvljWeg63nTC4DoQLpF15hqd9YyGHWDlJsWOjVMonUIfjPijX+rtRExQewkjm2MxJshu5pHXTPm5br8K3gIKhbnUfyRsnzEBJISm4ZCld4Cvk4hhmUBfurPMjUtqmFkFQ1/ZooEbOeVQjawghBCGrSWkd/ZHWBiXc83dH5T3YZMnICSpRQkFDuoygO6zlR+8wp4BqwqlJsj3feggSqSc1j+MVovQdVRjPTUBpFNSeVO9e89njZZRmsPxivze3nGI9PyMkmoqF6y+9wijMaqGsRt9KvV7xm/aHKkKHVi4qEqmFhMpdSbKhTUpYpJYE5GVYvklUCwR4rHUwkCtmHxSllL1IKkkZZeoF4rT5mWXmFH4iRSrKmXQrKeKYm4Eefw9HlDhJ+aYtbhipgAW4QooLBIJZpgNCBa0WMQkh8wreqUjibeasnnlDS6oq4FDDI7uwYEq+jJaWyfAamLC12Iooh8oKE1PFZAUrnlqF+8YqpirNUO6Q3QptVKeVGwBijjQci72Hi6bpi7OfrT+1NqC7d1P2xRx5/BrfYfePfhfY+lWWBlFrbJ8Kh4ICg5sLnujUq+j6wEK4U/xGy95nTaHJALW+ad09TFJGXpT7G1T9HE6Zj3feubWmpEVwi1re7sjpCQljQbWG2bZEKnFr23l80/8AtCiP+kq6/wDk/hChd1cxEvm+I/ziLOH5fh/tqgwof0n7Sz7HzX/uxFjOU/WV/nVChRK65/YV1+Y/ejvyNPNX3ToUKKy8lh4hmH0+qPui52DzfFH3ohQomeKeXsqL/Gp+sn/SnRbxVpfn/uyYMKLqP2aPxqf7P92XG89X/wD3E36yP9TEQoUPX7T+i2et/tt18n92f88VsXz/AN4P8sKFG3Hz/rDkxnrG/wDz5P8Adf5I7PYf/aSP7CV+7ChQT2F9XbTzf3ivuEY7095JHx/1JUKFEbvSr0+8Yfs38avyR/ozYoekHMfqL/2IMKMk8tv0tY/8WPqr+6VF+R+KPn/vwoUTl4GPlm8Tzfz4REeM/EnyP+YQIUV+i/ZmC5R8fuXHTlaef7whQoV8nihOn1R9yI5uK/Z/7QoUGIyV4UKFFof/2Q==",
+      "updated_at": "NOW()"
+    },
+    {
+      "id": "f0000000-0000-4000-8000-000000000001",
+      "full_name": "Abebe Kebede",
+      "username": "abebe",
+      "password": "password123",
+      "role": "STUDENT",
+      "student_id_number": "DDU-1001",
+      "university_id": "10000000-0000-4000-8000-000000000004",
+      "is_verified": true,
+      "account_status": "ACTIVE",
+      "settings": {},
+      "created_at": "2026-05-27T13:13:16.006Z"
+    },
+    {
+      "id": "f0000000-0000-4000-8000-000000000002",
+      "full_name": "Sara Tesfaye",
+      "username": "sara",
+      "password": "password123",
+      "role": "STUDENT",
+      "student_id_number": "AAU-2002",
+      "university_id": "10000000-0000-4000-8000-000000000001",
+      "is_verified": true,
+      "account_status": "ACTIVE",
+      "settings": {},
+      "created_at": "2026-05-27T13:13:16.006Z"
+    },
+    {
+      "id": "f0000000-0000-4000-8000-000000000003",
+      "full_name": "Admin @ Addis Ababa University",
+      "username": "aau_admin",
+      "password": "password123",
+      "role": "UNI_ADMIN",
+      "student_id_number": "ADMIN-AAU",
+      "university_id": "10000000-0000-4000-8000-000000000001",
+      "is_verified": true,
+      "account_status": "ACTIVE",
+      "settings": {},
+      "created_at": "2026-05-27T13:13:16.006Z"
+    },
+    {
+      "id": "f0000000-0000-4000-8000-000000000004",
+      "full_name": "Federal MoE Inspector",
+      "username": "moe",
+      "password": "password123",
+      "role": "MOE",
+      "student_id_number": "MOE-8899",
+      "is_verified": true,
+      "account_status": "ACTIVE",
+      "settings": {},
+      "created_at": "2026-05-27T13:13:16.006Z"
+    },
+    {
+      "id": "d0ae2d5d-f5b4-4f73-aa86-744eef4f9e99",
+      "full_name": "Super Admin @ JImma",
+      "username": "jimma_admin_2007",
+      "password": "1234",
+      "role": "UNI_ADMIN",
+      "university_id": "9bf7d567-177b-421b-bb6d-538382c7bc69",
+      "student_id_number": "ROOT-374710",
+      "created_at": "2026-05-27T13:52:26.823Z",
+      "updated_at": "2026-05-27T13:52:26.823Z",
+      "account_status": "ACTIVE"
+    },
+    {
+      "id": "57673170-1976-4816-9d4d-effe4e756da5",
+      "full_name": "Super Admin @ arsi",
+      "username": "arsi_admin_4828",
+      "password": "a2y2pgteyt",
+      "role": "UNI_ADMIN",
+      "university_id": "9db3d126-c5fb-4fcb-ad6a-0baf8d555237",
+      "student_id_number": "ROOT-289875",
+      "created_at": "2026-05-27T14:19:52.853Z",
+      "updated_at": "2026-05-27T14:19:52.853Z",
+      "account_status": "ACTIVE"
+    }
+  ],
+  "complaints": [
+    {
+      "id": "c0000000-0000-4000-8000-000000000001",
+      "student_id": "f0000000-0000-4000-8000-000000000001",
+      "university_id": "10000000-0000-4000-8000-000000000004",
+      "category": "CAFETERIA",
+      "description": "The meat served in Block 4 central dining hall smells decayed. Multiple students reported stomach issues.",
+      "upvotes_count": 142,
+      "likes_count": 0,
+      "dislikes_count": 0,
+      "created_at": "2026-05-27T13:13:16.006Z",
+      "updated_at": "2026-05-27T13:13:16.006Z"
+    },
+    {
+      "id": "c0000000-0000-4000-8000-000000000002",
+      "student_id": "f0000000-0000-4000-8000-000000000001",
+      "university_id": "10000000-0000-4000-8000-000000000004",
+      "category": "DORMITORY",
+      "description": "Severe water shortage in Female Dormitory Block 12. No running water for 48 hours.",
+      "upvotes_count": 89,
+      "likes_count": 0,
+      "dislikes_count": 0,
+      "created_at": "2026-05-27T13:13:16.006Z",
+      "updated_at": "2026-05-27T13:13:16.006Z"
+    },
+    {
+      "id": "c0000000-0000-4000-8000-000000000003",
+      "student_id": "f0000000-0000-4000-8000-000000000002",
+      "university_id": "10000000-0000-4000-8000-000000000001",
+      "category": "ACADEMIC",
+      "description": "Massive failure in the grade management system for Semester 2.",
+      "upvotes_count": 215,
+      "likes_count": 0,
+      "dislikes_count": 0,
+      "created_at": "2026-05-27T13:13:16.006Z",
+      "updated_at": "2026-05-27T13:13:16.006Z"
+    }
+  ],
+  "comments": [],
+  "category_definitions": [
+    {
+      "name": "CAFETERIA",
+      "label": "Cafeteria & Food",
+      "description": "Dining services and food quality",
+      "created_at": "2026-05-27T13:13:16.006Z"
+    },
+    {
+      "name": "DORMITORY",
+      "label": "Dormitory",
+      "description": "Living conditions and housing",
+      "created_at": "2026-05-27T13:13:16.006Z"
+    },
+    {
+      "name": "ACADEMIC",
+      "label": "Academic",
+      "description": "Courses, grades and registration",
+      "created_at": "2026-05-27T13:13:16.006Z"
+    },
+    {
+      "name": "SAFETY",
+      "label": "Security & Safety",
+      "description": "Campus safety and security",
+      "created_at": "2026-05-27T13:13:16.006Z"
+    },
+    {
+      "name": "CLINIC",
+      "label": "Health Clinic",
+      "description": "Medical services and facilities",
+      "created_at": "2026-05-27T13:13:16.006Z"
+    }
+  ],
+  "banned_words": [
+    {
+      "id": "18088627-369c-408c-b3fc-8f6dad174f6f",
+      "word": "stupid",
+      "created_at": "2026-05-27T13:32:51.713Z",
+      "updated_at": "2026-05-27T13:32:51.713Z"
+    }
+  ],
+  "system_audit_logs": [
+    {
+      "id": "a0000000-0000-4000-8000-000000000001",
+      "user_id": "f0000000-0000-4000-8000-000000000000",
+      "action": "INSTITUTION_PROVISIONED",
+      "details": {
+        "universityName": "Adama Science and Technology University",
+        "adminUsername": "astu_admin"
+      },
+      "created_at": "2026-05-27T13:14:00.000Z"
+    },
+    {
+      "id": "a0000000-0000-4000-8000-000000000002",
+      "user_id": "f0000000-0000-4000-8000-000000000001",
+      "action": "CONTENT_FLAGGED",
+      "details": {
+        "text": "The food contains stupid ingredients.",
+        "universityId": "10000000-0000-4000-8000-000000000004"
+      },
+      "created_at": "2026-05-27T13:35:10.000Z"
+    }
+  ],
+  "department_notifications": [],
+  "upvotes": [],
+  "complaint_reactions": [],
+  "comment_reactions": [],
+  "media": [],
+  "pre_registered_students": []
+}

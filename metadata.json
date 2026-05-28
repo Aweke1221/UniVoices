@@ -1,0 +1,11 @@
+{
+  "name": "Remix: UniAccord",
+  "description": "National Student-University Accountability Network - A modern platform for transparency, accountability, and student advocacy in higher education institutions.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

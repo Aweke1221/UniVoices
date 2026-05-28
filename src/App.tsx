@@ -3077,14 +3077,15 @@ export default function App() {
                     >
                       <div className="flex items-center gap-3 min-w-0">
                         <div className={cn(
-                          "w-8 h-8 overflow-hidden border flex items-center justify-center shrink-0 transition-all",
-                          idx === 1 ? "rounded-full" : "rounded-lg",
+                          "w-8 h-8 rounded-full overflow-hidden border bg-white flex items-center justify-center shrink-0 transition-all",
                           selectedUni === uni.id ? "border-indigo-200 shadow-sm scale-110" : "border-slate-100 grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100"
                         )}>
                           {uni.logo_url ? (
-                            <img src={uni.logo_url} className={cn("w-full h-full object-cover", idx === 1 && "rounded-full")} referrerPolicy="no-referrer" />
+                            <img src={uni.logo_url} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                           ) : (
-                            <Building2 className="w-4 h-4 text-slate-400" />
+                            <div className="w-full h-full flex items-center justify-center bg-indigo-100 text-indigo-600 font-bold text-xs uppercase">
+                              {uni.name ? uni.name.charAt(0) : '?'}
+                            </div>
                           )}
                         </div>
                         <span className={cn("text-xs transition-opacity duration-300 truncate", !isSidebarOpen && "opacity-0 invisible hidden")}>{uni.name}</span>
@@ -3214,7 +3215,7 @@ export default function App() {
                       <div>
                         <div className="flex items-center gap-3 lg:gap-4">
                           {selectedUni && universities.find(u => u.id === selectedUni)?.logo_url && (
-                             <div className="w-8 h-8 lg:w-10 lg:h-10 rounded-xl lg:rounded-2xl overflow-hidden shadow-sm border border-slate-200 shrink-0">
+                             <div className="w-8 h-8 lg:w-10 lg:h-10 rounded-full overflow-hidden shadow-sm border border-slate-200 bg-white shrink-0">
                                 <img src={universities.find(u => u.id === selectedUni)?.logo_url} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                              </div>
                           )}

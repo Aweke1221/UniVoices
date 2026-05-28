@@ -38,6 +38,13 @@ async function startServer() {
   });
 
   // API Routes
+  app.use((err: any, req: any, res: any, next: any) => {
+    console.error("GLOBAL API ERROR:", err);
+    if (!res.headersSent) {
+      res.status(500).json({ error: "Internal Server Error", details: err.message });
+    }
+  });
+
   app.get("/api/health", (req, res) => {
     res.json({ status: "ok", mode: process.env.NODE_ENV });
   });
@@ -59,7 +66,7 @@ async function startServer() {
   // Complaints
   app.get("/api/complaints", async (req, res) => {
     // Debug log
-    console.log("DEBUG: Hit /api/complaints", { query: req.query });
+    console.log("SERVER: Received GET /api/complaints", { query: req.query });
 
     const university_id = toUuid(req.query.university_id);
     const category = req.query.category as string;

@@ -58,7 +58,8 @@ import {
   Home,
   GraduationCap,
   HeartPulse,
-  Sun
+  Sun,
+  Settings
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import * as XLSX from "xlsx";
@@ -74,31 +75,36 @@ import {
 
 const Toast = ({ message, type, onClose }: { message: string, type: 'success' | 'error' | 'info', onClose: () => void }) => (
   <motion.div
-    initial={{ opacity: 0, y: 20, x: '-50%' }}
-    animate={{ opacity: 1, y: 0, x: '-50%' }}
-    exit={{ opacity: 0, y: 20, x: '-50%' }}
+    initial={{ opacity: 0, y: -20 }}
+    animate={{ opacity: 1, y: 0 }}
+    exit={{ opacity: 0, y: -20 }}
     className={cn(
-      "fixed bottom-8 left-1/2 z-[100] px-5 py-3 rounded-xl shadow-xl flex items-center gap-3 border min-w-[300px]",
+      "fixed top-20 right-4 z-[120] px-5 py-3 rounded-xl shadow-xl flex items-center gap-3 border min-w-[300px]",
       type === 'success' ? "bg-white text-emerald-700 border-emerald-100" : 
       type === 'info' ? "bg-white text-indigo-700 border-indigo-100" : 
-      "bg-white text-rose-700 border-rose-100"
+      "bg-red-50 text-red-700 border-red-200"
     )}
   >
     <div className={cn(
       "w-8 h-8 rounded-full flex items-center justify-center shrink-0",
       type === 'success' ? "bg-emerald-50" : 
       type === 'info' ? "bg-indigo-50" : 
-      "bg-rose-50"
+      "bg-red-100"
     )}>
       {type === 'success' ? <CheckCircle className="w-4 h-4" /> : 
        type === 'info' ? <Bell className="w-4 h-4" /> : 
        <AlertCircle className="w-4 h-4" />}
     </div>
     <div className="flex-1">
-      <p className="text-[11px] font-bold text-slate-800 leading-tight">{message}</p>
+      <p className={cn(
+        "text-[11px] font-bold leading-tight",
+        type === 'success' ? "text-emerald-800" : 
+        type === 'info' ? "text-indigo-800" : 
+        "text-red-800"
+      )}>{message}</p>
     </div>
-    <button onClick={onClose} className="p-1 hover:bg-slate-50 rounded-md transition-colors">
-      <X className="w-3.5 h-3.5 text-slate-400" />
+    <button onClick={onClose} className={cn("p-1 rounded-md transition-colors", type === 'success' ? "hover:bg-emerald-50" : type === 'info' ? "hover:bg-indigo-50" : "hover:bg-red-100")}>
+      <X className={cn("w-3.5 h-3.5", type === 'success' ? "text-emerald-400" : type === 'info' ? "text-indigo-400" : "text-red-400")} />
     </button>
   </motion.div>
 );
@@ -111,7 +117,7 @@ const TrendingBadge = ({ upvotes }: { upvotes: number }) => {
       Trending Incident
     </span>
   );
-};
+}
 
 interface ComplaintCardProps {
   key?: React.Key;
@@ -733,7 +739,7 @@ const ComplaintCard = ({
                     value={newComment}
                     onChange={(e) => setNewComment(e.target.value)}
                     placeholder={userRole === "STUDENT" ? "Counter-claim or provide more details..." : "Add your comment..."}
-                    className="w-full rounded-xl border-slate-200 text-sm px-4 py-3 focus:ring-indigo-500 shadow-sm bg-white"
+                    className="w-full rounded-xl border-slate-200 dark:border-slate-700 text-sm px-4 py-3 focus:ring-indigo-500 shadow-sm bg-white dark:bg-slate-900 dark:text-white"
                   />
                   <div className="flex gap-2">
                     <input 
@@ -753,7 +759,7 @@ const ComplaintCard = ({
                       htmlFor={`comment-upload-${complaint.id}`}
                       className={cn(
                         "flex-1 p-3 rounded-xl border cursor-pointer transition-colors flex items-center justify-center gap-2 text-xs font-bold uppercase",
-                        commentFile ? "bg-emerald-50 border-emerald-200 text-emerald-600" : "bg-white border-slate-200 text-slate-400 hover:bg-slate-50"
+                        commentFile ? "bg-emerald-50 dark:bg-emerald-950 border-emerald-200 dark:border-emerald-800 text-emerald-600 dark:text-emerald-400" : "bg-white dark:bg-slate-950 border-slate-200 dark:border-slate-800 text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-900"
                       )}
                     >
                       <Paperclip className="w-4 h-4" />
@@ -800,6 +806,7 @@ export default function App() {
   const [showPassword, setShowPassword] = useState(false);
   const [registerStage, setRegisterStage] = useState<"PHONE" | "OTP" | "DETAILS">("PHONE");
   const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
   const [simulatedOtp, setSimulatedOtp] = useState<string | null>(null);
   const [authError, setAuthError] = useState<string | null>(null);
   const [authSuccess, setAuthSuccess] = useState<string | null>(null);
@@ -907,6 +914,7 @@ export default function App() {
     }
   }, [user, activeTab, selectedUni]);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isSettingsMenuOpen, setIsSettingsMenuOpen] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isEditingProfile, setIsEditingProfile] = useState(false);
   const [pName, setPName] = useState("");
@@ -1063,6 +1071,8 @@ export default function App() {
 
   const updateSettings = async (newSettings: any) => {
     if (!user) return;
+    console.log("Updating settings to:", newSettings);
+    setLoading(true);
     try {
       const res = await fetch(`/api/users/${user.id}/settings`, {
         method: "PATCH",
@@ -1076,6 +1086,8 @@ export default function App() {
       }
     } catch (e) {
       showNotify("Settings sync failed.", "error");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -1540,6 +1552,9 @@ export default function App() {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const phoneInput = formData.get("phone") as string;
+    const emailInput = formData.get("email") as string;
+    const identifier = phoneInput || emailInput;
+    
     setLoading(true);
     setSimulatedOtp(null);
     setAuthError(null);
@@ -1548,11 +1563,12 @@ export default function App() {
       const res = await fetch("/api/auth/send-otp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ phone: phoneInput }),
+        body: JSON.stringify({ phone: phoneInput, email: emailInput }),
       });
       const data = await res.json();
       if (res.ok) {
         setPhone(phoneInput);
+        setEmail(emailInput);
         setRegisterStage("OTP");
         if (data.simulated && data.code) {
           setSimulatedOtp(data.code);
@@ -1582,11 +1598,11 @@ export default function App() {
       const res = await fetch("/api/auth/verify-otp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ phone, otp: formData.get("otp") }),
+        body: JSON.stringify({ identifier: phone || email, otp: formData.get("otp") }),
       });
       if (res.ok) {
         setRegisterStage("DETAILS");
-        showNotify("Phone verified successfully");
+        showNotify("Verification successful");
       } else {
         const data = await res.json();
         setAuthError(data.error || "Invalid or expired verification code.");
@@ -1641,7 +1657,8 @@ export default function App() {
       const payload = registerRole === "STUDENT" 
         ? { 
             ...data, 
-            phone, 
+            phone,
+            email,
             role: "STUDENT", 
             fullName: preRegisteredStudent?.fullName, 
             universityId: preRegisteredStudent?.universityId, 
@@ -1650,6 +1667,7 @@ export default function App() {
         : { 
             ...data, 
             phone,
+            email,
             role: "UNI_ADMIN"
           };
 
@@ -2171,11 +2189,19 @@ export default function App() {
                 <form onSubmit={handleSendOtp} className="space-y-5">
                   <p className="text-xs text-slate-500 leading-relaxed text-center px-2">Registering requires a valid mobile number for secure identification.</p>
                   <div className="space-y-1.5">
-                    <label className="block text-[11px] font-bold text-slate-600 uppercase tracking-wider ml-1">Phone Number</label>
+                    <label className="block text-[11px] font-bold text-slate-600 uppercase tracking-wider ml-1">Phone Number (Optional)</label>
                     <input 
                       name="phone" 
                       placeholder="+251 9... or 09..." 
-                      required 
+                      className="w-full rounded-xl bg-slate-50 border-slate-200 text-slate-900 py-3 px-4 text-sm focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all placeholder:text-slate-400"
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="block text-[11px] font-bold text-slate-600 uppercase tracking-wider ml-1">Email (Optional)</label>
+                    <input 
+                      name="email" 
+                      placeholder="student@university.edu" 
+                      type="email"
                       className="w-full rounded-xl bg-slate-50 border-slate-200 text-slate-900 py-3 px-4 text-sm focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all placeholder:text-slate-400"
                     />
                   </div>
@@ -2348,8 +2374,8 @@ export default function App() {
           )}
         </motion.div>
       </div>
-    );
-  }
+  );
+}
 
   return (
     <div className="h-screen bg-gradient-to-br from-cyan-50 via-blue-50 to-indigo-50 flex flex-col font-sans selection:bg-cyan-500 selection:text-white overflow-hidden">
@@ -2572,6 +2598,31 @@ export default function App() {
                       </div>
                     )}
                   </>
+                )}
+
+                {profileTab === "PRIVACY" && (
+                  <div className="space-y-6">
+                    <div className={cn("p-6 rounded-[1.5rem] border", darkMode ? "bg-slate-800/50 border-slate-800" : "bg-slate-50 border-slate-100")}>
+                      <h3 className={cn("text-xs font-black uppercase mb-4", darkMode ? "text-white" : "text-slate-900")}>Privacy Settings</h3>
+                      <div className="flex items-center justify-between">
+                        <div>
+                           <p className={cn("text-sm font-bold", darkMode ? "text-white" : "text-slate-800")}>Hide Identity</p>
+                           <p className="text-xs text-slate-500">Display as "Anonymous" to others.</p>
+                        </div>
+                        <button
+                          disabled={loading}
+                          onClick={() => updateSettings({ ...pSettings, hideIdentity: !pSettings.hideIdentity })}
+                          className={cn(
+                             "w-12 h-6 flex items-center rounded-full p-1 transition-all",
+                             loading ? "opacity-50 cursor-not-allowed" : "",
+                             pSettings.hideIdentity ? "bg-indigo-600 justify-end" : "bg-slate-200 justify-start"
+                          )}
+                        >
+                           <div className={cn("w-4 h-4 rounded-full bg-white shadow-sm transition-transform", loading ? "animate-pulse" : "")} />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 )}
 
                 {profileTab === ("INSTITUTION" as any) && user.role === 'UNI_ADMIN' && (
@@ -2887,37 +2938,9 @@ export default function App() {
               "text-right hidden lg:block border-l pl-6 transition-colors",
               darkMode ? "border-slate-800" : "border-slate-200"
             )}>
-              <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">{user.role.replace("_", " ")}</p>
-              <button 
-                onClick={() => setIsProfileOpen(true)}
-                className={cn(
-                  "text-xs font-bold tracking-tight transition-colors cursor-pointer flex items-center gap-2 justify-end",
-                  darkMode ? "text-white hover:text-indigo-400" : "text-slate-900 hover:text-indigo-600"
-                )}
-              >
-                <div className="flex flex-col items-end leading-none">
-                  <span className="text-[10px] font-black">{user.full_name}</span>
-                  <span className="text-[7px] uppercase tracking-widest opacity-50 font-black">{user.role.replace("_", " ")}</span>
-                </div>
-                <div className="w-6 h-6 rounded-lg overflow-hidden border border-slate-200 bg-white flex items-center justify-center">
-                  {user.avatar_url ? (
-                    <img src={user.avatar_url} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
-                  ) : (
-                    <UserCircle className="w-4 h-4 text-slate-300" />
-                  )}
-                </div>
-              </button>
+               <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">{user.role.replace("_", " ")}</p>
+               <p className="text-xs font-black tracking-tight">{user.full_name}</p>
             </div>
-            <button 
-              onClick={() => { setIsProfileOpen(true); setProfileTab("CONTROLS"); }}
-              className={cn(
-                "w-9 h-9 flex items-center justify-center rounded-xl transition-all border",
-                darkMode ? "bg-slate-800 text-slate-400 hover:text-indigo-400 border-slate-700" : "bg-slate-50 text-slate-400 hover:text-indigo-600 border-slate-200"
-              )}
-              title="Settings"
-            >
-              <Settings2 className="w-4 h-4" />
-            </button>
             <button 
               onClick={logout} 
               className={cn(
@@ -2933,7 +2956,7 @@ export default function App() {
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 flex overflow-hidden">
+      <div className="flex-1 flex overflow-hidden">
         {configError && (
           <div className="absolute top-20 left-1/2 -translate-x-1/2 z-50 w-full max-w-xl px-4">
             <motion.div 
@@ -2964,20 +2987,21 @@ export default function App() {
 
         {/* Sidebar: University Navigation */}
         <nav className={cn(
-          "fixed lg:relative bg-white border-r border-slate-200 flex flex-col shrink-0 transition-all duration-300 h-full z-[60] lg:z-40 shadow-2xl lg:shadow-none", 
-           isSidebarOpen ? "w-72 translate-x-0" : "w-20 -translate-x-full lg:translate-x-0"
+          "fixed lg:relative border-r flex flex-col shrink-0 transition-all duration-300 h-full z-[60] lg:z-40 shadow-2xl lg:shadow-none",
+          isSidebarOpen ? "w-3/5 translate-x-0 lg:w-72" : "w-20 -translate-x-full lg:translate-x-0",
+          darkMode ? "bg-slate-900 border-slate-800" : "bg-white border-slate-200"
         )}>
           {/* Sidebar Toggle Button (Desktop) */}
           <button 
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-            className="hidden lg:flex absolute top-5 -right-3 z-[70] w-6 h-6 bg-white border border-slate-200 rounded-full items-center justify-center shadow-sm hover:bg-slate-50 transition-all hover:scale-110 text-slate-400 hover:text-indigo-600"
+            className="hidden lg:flex absolute top-5 -right-3 z-[70] w-6 h-6 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-full items-center justify-center shadow-sm hover:bg-slate-50 dark:hover:bg-slate-700 transition-all hover:scale-110 text-slate-400 hover:text-indigo-600"
           >
             {isSidebarOpen ? <ChevronLeft className="w-3.5 h-3.5" /> : <ChevronRight className="w-3.5 h-3.5" />}
           </button>
 
           <div 
             ref={sidebarScrollRef}
-            className={cn("p-6 pb-24 flex-1 flex flex-col gap-6 transition-all duration-300 overflow-y-auto custom-scrollbar", !isSidebarOpen && "px-3 items-center")}
+            className={cn("p-6 flex-1 flex flex-col gap-6 transition-all duration-300 overflow-y-auto custom-scrollbar", !isSidebarOpen && "px-3 items-center")}
           >
             {/* Mobile Navigation Links */}
             <div className="lg:hidden space-y-1 bg-slate-50 p-2 rounded-2xl mb-4">
@@ -2999,7 +3023,7 @@ export default function App() {
               {(user.role === "MOE" || user.role === "SYSTEM_ADMIN" || user.role === "UNI_ADMIN") && (
                 <button 
                   onClick={() => { setActiveTab("ANALYTICS"); setIsSidebarOpen(false); }}
-                  className={cn("w-full flex items-center gap-3 p-3 rounded-xl text-[10px] font-black uppercase tracking-widest", activeTab === "ANALYTICS" ? "bg-white shadow-sm text-indigo-600" : "text-slate-500")}
+                  className={cn("w-full flex items-center gap-3 p-3 rounded-xl text-[10px] font-black uppercase tracking-widest", activeTab === "ANALYTICS" ? "bg-white dark:bg-slate-800 shadow-sm text-indigo-600" : "text-slate-500 dark:text-slate-400")}
                 >
                   <BarChart3 className="w-4 h-4" /> National Analytics
                 </button>
@@ -3007,7 +3031,7 @@ export default function App() {
               {(user.role === "UNI_ADMIN" || user.role === "DEPT_ADMIN" || user.role === "MOE" || user.role === "SYSTEM_ADMIN") && (
                 <button 
                   onClick={() => { setActiveTab("HOTSPOTS"); setIsSidebarOpen(false); }}
-                  className={cn("w-full flex items-center gap-3 p-3 rounded-xl text-[10px] font-black uppercase tracking-widest", activeTab === "HOTSPOTS" ? "bg-white shadow-sm text-indigo-600" : "text-slate-500")}
+                  className={cn("w-full flex items-center gap-3 p-3 rounded-xl text-[10px] font-black uppercase tracking-widest", activeTab === "HOTSPOTS" ? "bg-white dark:bg-slate-800 shadow-sm text-indigo-600" : "text-slate-500 dark:text-slate-400")}
                 >
                   <Flame className="w-4 h-4" /> Strategic Hotspots
                 </button>
@@ -3015,7 +3039,7 @@ export default function App() {
               {(user.role === "SYSTEM_ADMIN" || user.role === "UNI_ADMIN") && (
                 <button 
                   onClick={() => { setActiveTab("SYSTEM"); setIsSidebarOpen(false); }}
-                  className={cn("w-full flex items-center gap-3 p-3 rounded-xl text-[10px] font-black uppercase tracking-widest", activeTab === "SYSTEM" ? "bg-white shadow-sm text-indigo-600" : "text-slate-500")}
+                  className={cn("w-full flex items-center gap-3 p-3 rounded-xl text-[10px] font-black uppercase tracking-widest", activeTab === "SYSTEM" ? "bg-white dark:bg-slate-800 shadow-sm text-indigo-600" : "text-slate-500 dark:text-slate-400")}
                 >
                   <Lock className="w-4 h-4" /> Protocol Governance
                 </button>
@@ -3065,27 +3089,35 @@ export default function App() {
                  {universities.map((uni, idx) => (
                     <button 
                       key={uni.id}
-                      onClick={() => setSelectedUni(uni.id)}
+                      onClick={() => { setSelectedUni(uni.id); setUniUnreadCounts(prev => ({...prev, [uni.id]: 0})); }}
                       className={cn(
                         "w-full flex items-center justify-between px-3 py-2.5 rounded-xl transition-all text-left group",
                         selectedUni === uni.id 
-                          ? "bg-indigo-50 text-indigo-700 font-bold shadow-sm ring-1 ring-indigo-200" 
-                          : "hover:bg-slate-50 text-slate-600 font-medium",
+                          ? "bg-indigo-50 dark:bg-slate-800 text-indigo-700 dark:text-indigo-400 font-bold shadow-sm ring-1 ring-indigo-200 dark:ring-slate-700" 
+                          : "hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 font-medium",
                         !isSidebarOpen && "justify-center px-0 h-10 w-10 mx-auto"
                       )}
                       title={uni.name}
                     >
                       <div className="flex items-center gap-3 min-w-0">
-                        <div className={cn(
-                          "w-8 h-8 rounded-full overflow-hidden border bg-white flex items-center justify-center shrink-0 transition-all",
-                          selectedUni === uni.id ? "border-indigo-200 shadow-sm scale-110" : "border-slate-100 grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100"
-                        )}>
-                          {uni.logo_url ? (
-                            <img src={uni.logo_url} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
-                          ) : (
-                            <div className="w-full h-full flex items-center justify-center bg-indigo-100 text-indigo-600 font-bold text-xs uppercase">
-                              {uni.name ? uni.name.charAt(0) : '?'}
-                            </div>
+                        <div className="relative shrink-0">
+                          <div className={cn(
+                            "w-8 h-8 rounded-full overflow-hidden border bg-white flex items-center justify-center transition-all",
+                            selectedUni === uni.id ? "border-indigo-200 dark:border-slate-600 shadow-sm scale-110" : "border-slate-100 dark:border-slate-800 grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100"
+                          )}>
+                            {uni.logo_url ? (
+                              <img src={uni.logo_url} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                            ) : (
+                              <div className="w-full h-full flex items-center justify-center bg-indigo-100 text-indigo-600 font-bold text-xs uppercase">
+                                {uni.name ? uni.name.charAt(0) : '?'}
+                              </div>
+                            )}
+                          </div>
+                          {/* Notification Badge */}
+                          {uniUnreadCounts[uni.id] > 0 && (
+                            <span className="absolute -top-1 -right-1 bg-red-600 text-white text-[8px] font-bold rounded-full w-4 h-4 flex items-center justify-center border border-white dark:border-slate-900 shadow-sm z-10">
+                              {uniUnreadCounts[uni.id]}
+                            </span>
                           )}
                         </div>
                         <span className={cn("text-xs transition-opacity duration-300 truncate", !isSidebarOpen && "opacity-0 invisible hidden")}>{uni.name}</span>
@@ -3097,60 +3129,82 @@ export default function App() {
             </div>
           </div>
           
-          <div className={cn("p-4 border-t border-slate-100 bg-slate-50/50 transition-all", !isSidebarOpen && "px-3 items-center")}>
-            {/* User Profile in Sidebar */}
+          <div className={cn("p-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 transition-all relative shrink-0", !isSidebarOpen && "px-3 items-center")}>
+            {/* Settings Menu Trigger */}
             <button 
-              onClick={() => setIsProfileOpen(true)}
+              onClick={() => {
+                setIsSettingsMenuOpen(!isSettingsMenuOpen);
+                if (!isSettingsMenuOpen) {
+                  setUniUnreadCounts({});
+                }
+              }}
               className={cn(
-                "w-full flex items-center gap-3 p-2 rounded-xl transition-all mb-4 group",
-                darkMode ? "hover:bg-slate-800" : "hover:bg-indigo-50/50",
-                !isSidebarOpen && "justify-center p-0 h-10 w-10 mx-auto"
+                "w-full flex items-center justify-between p-2 rounded-xl transition-all group hover:bg-slate-200 dark:hover:bg-slate-800",
+                isSettingsMenuOpen && "bg-slate-200 dark:bg-slate-800"
               )}
             >
-              <div className={cn(
-                "w-8 h-8 rounded-lg overflow-hidden border border-slate-200 bg-white flex items-center justify-center shrink-0 transition-transform group-hover:scale-110 shadow-sm",
-                !isSidebarOpen && "w-9 h-9"
-              )}>
-                {user?.avatar_url ? (
-                  <img src={user.avatar_url} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
-                ) : (
-                  <UserCircle className="w-5 h-5 text-slate-300" />
+              <div className="flex items-center gap-2 text-slate-600 dark:text-slate-400 relative">
+                <Settings className="w-5 h-5" />
+                {newComplaintCount > 0 && (
+                  <span className="absolute -top-1.5 -left-1.5 bg-rose-500 text-white text-[9px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
+                    {newComplaintCount}
+                  </span>
                 )}
-              </div>
-              <div className={cn("flex flex-col items-start leading-none min-w-0 transition-all duration-300", !isSidebarOpen && "opacity-0 invisible w-0 hidden")}>
-                <span className="text-[10px] font-black text-slate-900 truncate w-full">{user?.full_name}</span>
-                <span className="text-[7px] uppercase tracking-widest text-slate-400 font-bold truncate w-full">{user?.role.replace("_", " ")}</span>
+                <span className={cn("text-[10px] font-bold uppercase tracking-wider", !isSidebarOpen && "hidden")}>Settings</span>
               </div>
             </button>
 
-            <div className={cn("flex flex-col gap-1", !isSidebarOpen && "hidden")}>
-               <p className="text-[10px] font-black text-slate-900 leading-none">MoE Support</p>
-               <p className="text-[8px] font-medium text-slate-400">v2.4.0 • Enterprise</p>
-             </div>
-             <div className={cn("mt-4 flex flex-col gap-2", !isSidebarOpen && "mt-0")}>
-               <button 
-                 onClick={() => {
-                   console.log("ZIP download removed")
-                 }} 
-                 className="w-full flex items-center justify-between p-2 hover:bg-slate-200/50 rounded-lg transition-colors text-slate-500 group"
-                 title="Download Project Source (ZIP)" style={{ display: "none" }}
-               >
-                  <div className="flex items-center gap-2">
-                    <Download className="w-4 h-4 transition-transform group-hover:-translate-y-0.5" />
-                    <span className={cn("text-[10px] font-bold uppercase tracking-wider", !isSidebarOpen && "hidden")}>Download ZIP</span>
+            {/* Settings Popover */}
+            {isSettingsMenuOpen && (
+              <div className={cn("absolute bottom-full left-0 mb-2 w-72 border rounded-2xl shadow-2xl p-4 z-[90]", 
+                darkMode ? "bg-slate-900 border-slate-800" : "bg-white border-slate-200"
+              )}>
+                {/* Profile Section */}
+                <div className="flex items-center gap-3 mb-6 p-2 rounded-xl">
+                  <div className="w-10 h-10 rounded-lg overflow-hidden border border-slate-200 dark:border-slate-700 bg-white flex items-center justify-center shrink-0 shadow-sm">
+                    {user?.avatar_url ? (
+                      <img src={user.avatar_url} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                    ) : (
+                      <UserCircle className="w-6 h-6 text-slate-300" />
+                    )}
                   </div>
-               </button>
+                  <div className="flex flex-col items-start leading-none min-w-0">
+                    <span className="text-xs font-black text-slate-900 dark:text-white truncate w-full">{user?.full_name}</span>
+                    <span className="text-[9px] uppercase tracking-widest text-slate-400 font-bold truncate w-full">{user?.role.replace("_", " ")}</span>
+                  </div>
+                </div>
 
-               <button onClick={() => setDarkMode(!darkMode)} className="w-full flex items-center justify-between p-2 hover:bg-slate-200/50 rounded-lg transition-colors text-slate-500">
+                {/* Profile & Settings Buttons */}
+                <button
+                  onClick={() => { setIsProfileOpen(true); setProfileTab("INFO"); setIsSettingsMenuOpen(false); }}
+                  className="w-full flex items-center gap-2 p-3 mb-2 rounded-xl transition-colors hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs font-bold uppercase"
+                >
+                  <UserCircle className="w-5 h-5" />
+                  My Profile
+                </button>
+                <button
+                  onClick={() => { setIsProfileOpen(true); setProfileTab("CONTROLS"); setIsSettingsMenuOpen(false); }}
+                  className="w-full flex items-center gap-2 p-3 mb-4 rounded-xl transition-colors hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs font-bold uppercase"
+                >
+                  <Settings2 className="w-5 h-5" />
+                  Account Settings
+                </button>
+
+                {/* Dark Mode Toggle */}
+                <button 
+                  onClick={() => setDarkMode(!darkMode)} 
+                  className="w-full flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800 rounded-xl transition-colors hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300"
+                >
                   <div className="flex items-center gap-2">
-                    {darkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-                    <span className={cn("text-[10px] font-bold uppercase tracking-wider", !isSidebarOpen && "hidden")}>{darkMode ? "Light" : "Dark"}</span>
+                    {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+                    <span className="text-[10px] font-bold uppercase tracking-wider">{darkMode ? "Light Mode" : "Dark Mode"}</span>
                   </div>
-                  {isSidebarOpen && <div className={cn("w-6 h-3 rounded-full relative transition-colors", darkMode ? "bg-indigo-600" : "bg-slate-300")}>
-                    <div className={cn("absolute top-0.5 w-2 h-2 rounded-full bg-white transition-all", darkMode ? "left-3.5" : "left-0.5")} />
-                  </div>}
-               </button>
-             </div>
+                  <div className={cn("w-8 h-4 rounded-full relative transition-colors", darkMode ? "bg-indigo-600" : "bg-slate-300")}>
+                    <div className={cn("absolute top-0.5 w-3 h-3 rounded-full bg-white transition-all", darkMode ? "left-4.5" : "left-0.5")} style={{ left: darkMode ? "18px": "2px" }} />
+                  </div>
+                </button>
+              </div>
+            )}
           </div>
         </nav>
 
@@ -3348,8 +3402,8 @@ export default function App() {
                         )}
                       </AnimatePresence>
 
-                      {complaints.filter(c => selectedCategory === "ALL" || c.category === selectedCategory).length > 0 ? (
-                        complaints.filter(c => selectedCategory === "ALL" || c.category === selectedCategory).map((complaint, idx) => (
+                        
+ {complaints.filter(c => selectedCategory === "ALL" || c.category === selectedCategory).map((complaint, idx) => (
                           <div key={complaint.id} id={`complaint-${complaint.id}`}>
                             {idx === newCountSinceLastVisit && newCountSinceLastVisit > 0 && (
                                <div className="py-12 flex items-center gap-6">
@@ -3372,15 +3426,7 @@ export default function App() {
                             />
                           </div>
                         ))
-                      ) : (
-                        <div className="py-24 text-center">
-                          <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4 opacity-50">
-                            <MessageSquare className="text-slate-400 w-8 h-8" />
-                          </div>
-                          <p className="text-slate-400 font-bold uppercase text-xs tracking-widest">No Active Reports Found</p>
-                        </div>
-                      )}
-                    </div>
+                      } ) : (
                   </div>
                 </div>
 
@@ -3507,9 +3553,8 @@ export default function App() {
                   )}
                 </AnimatePresence>
               </div>
-            )}
-
-
+            </div>
+          )}
 
           {activeTab === "ANALYTICS" && (
             <div className="flex-1 overflow-y-auto p-4 md:p-8">
@@ -3750,7 +3795,7 @@ export default function App() {
                         key={notif.id}
                         className={cn(
                           "bg-white p-5 rounded-3xl border transition-all hover:shadow-md cursor-pointer",
-                          notif.is_read ? "border-slate-100 opacity-60" : "border-indigo-200 shadow-sm shadow-indigo-100/50"
+                          notif.is_read ? "border-slate-300 opacity-90" : "border-indigo-200 shadow-sm shadow-indigo-100/50"
                         )}
                         onClick={async () => {
                           if (!notif.is_read) {
@@ -4644,69 +4689,20 @@ export default function App() {
             </div>
           </div>
         )}
-        </AnimatePresence>
-
-      {/* Mobile Bottom Navigation - REMOVED PER USER REQUEST */}
-      <div className={cn(
-        "hidden",
-        darkMode && "bg-slate-900 border-slate-800 shadow-none ring-1 ring-white/10"
-      )}>
-        <BottomNavTab 
-          active={activeTab === "FEED"} 
-          onClick={() => setActiveTab("FEED")} 
-          icon={<MessageSquare className="w-5 h-5" />} 
-          label="Feed" 
-          badge={newComplaintCount > 0 ? newComplaintCount : undefined}
-        />
-        {(user.role === "DEPT_ADMIN" || user.role === "UNI_ADMIN") && (
-          <BottomNavTab 
-            active={activeTab === "DEPT_INTAKE"} 
-            onClick={() => setActiveTab("DEPT_INTAKE")} 
-            icon={<Bell className="w-5 h-5" />} 
-            label="Intake" 
-            badge={notifications.filter(n => n.is_read === false).length || undefined}
-          />
-        )}
-        {(user.role === "MOE" || user.role === "SYSTEM_ADMIN" || user.role === "UNI_ADMIN") && (
-          <BottomNavTab 
-            active={activeTab === "ANALYTICS"} 
-            onClick={() => setActiveTab("ANALYTICS")} 
-            icon={<BarChart3 className="w-5 h-5" />} 
-            label="Charts" 
-          />
-        )}
-        {(user.role === "UNI_ADMIN" || user.role === "DEPT_ADMIN" || user.role === "MOE" || user.role === "SYSTEM_ADMIN") && (
-          <BottomNavTab 
-            active={activeTab === "HOTSPOTS"} 
-            onClick={() => setActiveTab("HOTSPOTS")} 
-            icon={<Flame className="w-5 h-5" />} 
-            label="Trends" 
-          />
-        )}
-        {(user.role === "SYSTEM_ADMIN" || user.role === "UNI_ADMIN") && (
-          <BottomNavTab 
-            active={activeTab === "SYSTEM"} 
-            onClick={() => setActiveTab("SYSTEM")} 
-            icon={<Lock className="w-5 h-5" />} 
-            label="Gov" 
-          />
-        )}
-      </div>
-    </main>
-
-      <footer className="h-10 bg-white border-t border-slate-200 px-6 flex items-center justify-between shrink-0">
-        <p className="text-[10px] text-slate-400 font-medium tracking-wide uppercase">© 2026 Ministry of Education (MoE) Ethiopia • Digital Sovereignty Program</p>
-        <div className="flex gap-4">
-          <span className="text-[10px] text-emerald-500 font-bold uppercase flex items-center gap-1">
-            <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span> System: Operational
-          </span>
-        </div>
-      </footer>
+      </AnimatePresence>
     </div>
+  </div>
   );
 }
 
-const NavButton = ({ active, onClick, icon, label, badge }: { active: boolean, onClick: () => void, icon: React.ReactNode, label: string, badge?: number }) => (
+interface NavButtonProps {
+  active: boolean;
+  onClick: () => void;
+  icon: React.ReactNode;
+  label: string;
+  badge?: number;
+}
+const NavButton = ({ active, onClick, icon, label, badge }: NavButtonProps) => (
   <button 
     onClick={onClick}
     className={cn(

@@ -1,0 +1,414 @@
+88:    <div className={cn(
+98:    <div className="flex-1">
+282:    <div className="flex items-end gap-2 lg:gap-3 group/complaint">
+283:      <div className="flex items-center gap-1 LG:gap-2 shrink-0 pb-2">
+284:         <div className="w-8 h-8 lg:w-10 lg:h-10 rounded-full border border-white shadow-xl bg-white overflow-hidden flex items-center justify-center ring-2 lg:ring-4 ring-slate-100/30 transition-transform group-hover/complaint:scale-110 duration-500">
+288:              <div className="w-full h-full bg-slate-50 flex items-center justify-center text-slate-200">
+293:         <div className="hidden sm:block">
+294:            <div className="text-[7px] lg:text-[8px] font-black uppercase text-indigo-600 bg-indigo-50 px-1.5 py-0.5 rounded-md leading-none">
+311:        <div className={cn(
+317:          <div className="flex items-center gap-2 lg:gap-3">
+318:            <div className="flex flex-col">
+319:              <div className="flex flex-wrap items-center gap-1.5 leading-none">
+334:                <div className="flex items-center gap-1 bg-slate-100/50 px-1.5 py-0.5 rounded-full border border-slate-100">
+335:                   <div className="w-3 h-3 lg:w-3.5 lg:h-3.5 rounded-full overflow-hidden border border-white bg-white shrink-0">
+339:                        <div className="w-full h-full bg-slate-200" />
+347:              <div className="flex items-center gap-1.5 mt-0.5">
+348:                <div className="text-[7px] lg:text-[7.5px] font-black text-slate-400 font-mono tracking-tighter">
+351:                <div className="w-0.5 h-0.5 rounded-full bg-slate-200" />
+363:          <div className="flex items-center gap-1.5 lg:gap-2">
+364:            <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-indigo-50 border border-indigo-100/50 text-[8px] lg:text-[9px] font-black text-indigo-600 uppercase tracking-tight">
+370:              <div className="flex gap-1 ml-2">
+397:      <div className={cn("p-5 flex flex-col gap-4", isEditing && "bg-indigo-50/30")}>
+398:        <div className="flex-1 min-w-0">
+400:            <div className="space-y-4">
+401:              <div className="flex flex-wrap gap-2">
+421:              <div className="flex justify-end gap-2">
+447:                <div className="mb-4 -mt-2">
+453:          <div className="flex gap-4 mb-4">
+471:            <div className="mb-4 rounded-xl overflow-hidden border border-slate-200">
+472:              <div className="bg-slate-50 px-4 py-2 border-b border-slate-200 flex items-center gap-2">
+476:              <div className="bg-slate-100 flex justify-center items-center">
+491:                  <div className="p-8 text-center bg-white/50 backdrop-blur-sm">
+515:                <div className="p-3 bg-white border-t border-slate-100 flex justify-end">
+531:          <div className="flex items-center justify-between pt-3 border-t border-slate-50">
+532:            <div className="flex gap-4 items-center">
+533:              <div className="flex items-center gap-1 text-[9px] text-slate-400 font-bold">
+537:              <div className="flex items-center bg-slate-100 rounded-lg p-0.5">
+550:                <div className="w-px h-3 bg-slate-200 mx-0.5" />
+581:            <div className="flex items-center gap-3">
+607:              <div className="p-6 bg-indigo-50/50 border-b border-indigo-100">
+616:                  <div className="flex gap-2">
+617:                    <div className="relative flex-1">
+639:              <div className="p-6 space-y-6">
+641:                  <div key={announcement.id} className="bg-indigo-600 border border-indigo-700 rounded-2xl p-5 text-white shadow-xl shadow-indigo-100 flex flex-col gap-3">
+642:                    <div className="flex items-center gap-2">
+643:                      <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">
+646:                      <div className="flex-1">
+655:                      <div className="rounded-xl overflow-hidden border border-white/10 bg-black/10">
+659:                           <div className="p-3 flex items-center gap-2">
+669:                <div className="space-y-4">
+671:                <div className="space-y-4">
+673:                    <div key={c.id} className={cn(
+677:                      <div className="shrink-0 pt-0.5">
+678:                         <div className="w-8 h-8 rounded-full overflow-hidden bg-white border border-slate-200 flex items-center justify-center shadow-sm">
+686:                      <div className="flex-1 min-w-0">
+687:                        <div className="flex items-center justify-between mb-1">
+699:                          <div className="mb-3 rounded-xl overflow-hidden border border-slate-200 shadow-inner">
+710:                        <div className="flex items-center gap-4">
+744:                  <div className="flex gap-2">
+771:                    <div className="flex items-center gap-2 px-3 py-1 bg-emerald-50 text-emerald-700 rounded-lg text-[10px] font-bold self-start border border-emerald-100">
+2077:      <div className="min-h-screen bg-gradient-to-br from-cyan-50 via-blue-50 to-indigo-50 flex items-center justify-center p-4 selection:bg-cyan-500 selection:text-white">
+2078:        <div className="absolute inset-0 bg-[radial-gradient(#94a3b8_1px,transparent_1px)] [background-size:24px_24px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,#000_70%,transparent_100%)] opacity-10"></div>
+2085:          <div className="text-center mb-8">
+2086:            <div className="w-14 h-14 bg-cyan-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-xl shadow-cyan-500/20 rotate-3">
+2097:          <div className="flex gap-1 p-1 bg-white/50 rounded-2xl mb-8 border border-white/50 shadow-inner">
+2123:            <div className="space-y-3 mb-6">
+2130:                  <div className="w-4 h-4 rounded-full bg-rose-500 text-white flex items-center justify-center font-bold flex-shrink-0 text-[9px] mt-0.5">✕</div>
+2131:                  <div className="flex-1 leading-normal">{authError}</div>
+2141:                  <div className="w-4 h-4 rounded-full bg-emerald-500 text-white flex items-center justify-center font-bold flex-shrink-0 text-[9px] mt-0.5">✓</div>
+2142:                  <div className="flex-1 leading-normal">{authSuccess}</div>
+2150:              <div className="space-y-1.5">
+2159:              <div className="space-y-1.5">
+2161:                <div className="relative">
+2187:            <div className="space-y-5">
+2191:                  <div className="space-y-1.5">
+2199:                  <div className="space-y-1.5">
+2221:                  <div className="space-y-1.5 text-center">
+2231:                      <div className="mt-4 text-[11px] font-semibold bg-indigo-50 border border-indigo-100/60 rounded-xl p-2.5 text-indigo-950 text-center">
+2251:                  <div className="space-y-1 bg-indigo-50/40 p-3.5 rounded-2xl border border-indigo-100/50 text-center">
+2256:                  <div className="space-y-4 p-4 bg-slate-50 rounded-2xl border border-slate-200/60">
+2257:                    <div className="space-y-1.5">
+2259:                      <div className="flex gap-2">
+2302:                        <div className="grid grid-cols-2 gap-2 text-[11px] pt-1.5 border-t border-emerald-100/50">
+2303:                          <div>
+2307:                          <div>
+2323:                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+2324:                        <div className="space-y-1.5">
+2333:                        <div className="space-y-1.5">
+2335:                          <div className="relative">
+2363:                    <div className="p-4 border border-dashed border-slate-200 bg-slate-50/30 rounded-2xl text-center py-6">
+2381:    <div className="h-screen bg-gradient-to-br from-cyan-50 via-blue-50 to-indigo-50 flex flex-col font-sans selection:bg-cyan-500 selection:text-white overflow-hidden">
+2382:      <div className="fixed inset-0 bg-[radial-gradient(#94a3b8_1px,transparent_1px)] [background-size:24px_24px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,#000_30%,transparent_100%)] opacity-5 pointer-events-none"></div>
+2395:          <div className="fixed inset-0 z-[110] flex items-center justify-center p-4">
+2409:              <div className="p-8">
+2414:                  <div className="mb-6">
+2429:                <div className="flex gap-3">
+2463:          <div className="fixed inset-0 z-[110] flex items-center justify-center p-4">
+2480:              <div className="p-4 lg:p-8 h-full overflow-y-auto custom-scrollbar">
+2481:                <div className="flex justify-between items-start mb-4 lg:mb-6">
+2482:                  <div className="flex-1 min-w-0">
+2484:                    <div className="flex gap-3 lg:gap-4 mt-3 overflow-x-auto pb-1 no-scrollbar">
+2508:                        <div className="space-y-4">
+2509:                          <div>
+2513:                          <div>
+2515:                            <div className="flex items-center gap-4">
+2516:                              <div className={cn("w-16 h-16 rounded-2xl border overflow-hidden shrink-0 flex items-center justify-center shadow-inner", darkMode ? "bg-slate-800 border-slate-700" : "bg-slate-50 border-slate-200")}>
+2524:                                <div className={cn("w-full py-4 px-4 border-2 border-dashed rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] text-center transition-all", darkMode ? "bg-slate-800 border-slate-700 text-slate-500 group-hover:border-indigo-500 group-hover:text-indigo-400" : "bg-slate-50 border-slate-200 text-slate-500 group-hover:border-indigo-400 group-hover:bg-indigo-50/30 group-hover:text-indigo-600")}>
+2531:                          <div>
+2536:                        <div className="flex gap-3 pt-2">
+2542:                      <div className="space-y-8">
+2543:                        <div className={cn("flex items-center gap-6 p-6 rounded-[1.5rem] border transition-colors", darkMode ? "bg-slate-800/50 border-slate-800" : "bg-slate-50 border-slate-100")}>
+2544:                          <div className={cn("w-20 h-20 rounded-full border overflow-hidden shadow-sm flex items-center justify-center shrink-0", darkMode ? "bg-slate-800 border-slate-700" : "bg-white border-slate-200")}>
+2551:                          <div className="min-w-0">
+2552:                            <div className="flex items-center gap-2">
+2555:                                <div className={cn(
+2565:                            <div className="mt-3 inline-flex py-1 px-2 bg-indigo-600/10 text-indigo-700 rounded-md text-[8px] font-black uppercase tracking-wider">
+2571:                        <div className="space-y-6">
+2572:                           <div>
+2574:                             <div className={cn("text-sm leading-relaxed p-4 rounded-2xl border min-h-[60px]", darkMode ? "bg-slate-800/30 border-slate-800 text-slate-400" : "bg-slate-50/50 border-slate-100 text-slate-600")}>
+2579:                           <div className="grid grid-cols-2 gap-4">
+2580:                              <div className={cn("p-4 rounded-2xl border shadow-sm", darkMode ? "bg-slate-800 border-slate-700" : "bg-white border-slate-100")}>
+2584:                              <div className={cn("p-4 rounded-2xl border shadow-sm", darkMode ? "bg-slate-800 border-slate-700" : "bg-white border-slate-100")}>
+2604:                  <div className="space-y-6">
+2605:                    <div className={cn("p-6 rounded-[1.5rem] border", darkMode ? "bg-slate-800/50 border-slate-800" : "bg-slate-50 border-slate-100")}>
+2607:                      <div className="flex items-center justify-between">
+2608:                        <div>
+2621:                           <div className={cn("w-4 h-4 rounded-full bg-white shadow-sm transition-transform", loading ? "animate-pulse" : "")} />
+2629:                  <div className="space-y-6">
+2631:                      <div className={cn("p-6 rounded-[1.5rem] border", darkMode ? "bg-slate-800/50 border-slate-800" : "bg-slate-50 border-slate-100")}>
+2633:                         <div className="flex items-center gap-6">
+2634:                            <div className={cn("w-24 h-24 rounded-3xl border overflow-hidden shadow-sm flex items-center justify-center shrink-0", darkMode ? "bg-slate-900 border-slate-700" : "bg-white border-slate-200")}>
+2641:                            <div className="flex-1">
+2644:                                 <div className={cn("w-full py-3 px-4 border-2 border-dashed rounded-xl text-[9px] font-black uppercase tracking-widest text-center transition-all", darkMode ? "bg-slate-900 border-slate-700 text-slate-500 group-hover:border-indigo-500 group-hover:text-indigo-400" : "bg-white border-slate-200 text-slate-400 group-hover:border-indigo-400 group-hover:text-indigo-600")}>
+2653:                      <div className={cn("p-6 rounded-[1.5rem] border", darkMode ? "bg-slate-800/50 border-slate-800" : "bg-slate-50 border-slate-100")}>
+2655:                         <div className="space-y-3">
+2656:                            <div className="flex justify-between items-center py-2 border-b border-slate-100/50">
+2660:                            <div className="flex justify-between items-center py-2 border-b border-slate-100/50">
+2683:                  <div className="space-y-6">
+2684:                    <div className={cn("p-6 rounded-[1.5rem] border space-y-6", darkMode ? "bg-slate-800/50 border-slate-800" : "bg-slate-50 border-slate-100")}>
+2685:                       <div className="flex items-center justify-between">
+2686:                          <div>
+2697:                             <div className={cn(
+2705:                    <div className={cn("p-6 rounded-[1.5rem] border", darkMode ? "bg-slate-800/50 border-slate-800" : "bg-slate-50 border-slate-100")}>
+2709:                           <div>
+2711:                             <div className="relative">
+2721:                           <div>
+2723:                             <div className="relative">
+2740:                           <div className="flex gap-2 pt-2">
+2761:                            <div className="flex items-center gap-3">
+2770:                    <div className={cn("p-4 border rounded-2xl flex gap-3", darkMode ? "bg-amber-900/20 border-amber-900/30" : "bg-amber-50 border-amber-100")}>
+2772:                       <div>
+2781:                  <div className="space-y-4">
+2782:                    <div className="grid grid-cols-2 gap-4">
+2801:                    <div className="pt-4 border-t border-slate-100">
+2806:                          <div className="flex items-center gap-3">
+2824:                          <div className="flex items-center gap-3">
+2832:                    <div className="pt-2">
+2837:                          <div className="flex items-center gap-3">
+2857:        <div className="flex items-center gap-2 lg:gap-3">
+2864:          <div className="w-8 h-8 lg:w-10 lg:h-10 bg-indigo-600 rounded-lg lg:rounded-xl flex items-center justify-center font-bold text-xl shadow-lg shadow-indigo-100 text-white">
+2867:          <div className="hidden sm:block">
+2869:            <div className="flex items-center gap-1.5 mt-0.5">
+2870:               <div className="w-1 h-1 lg:w-1.5 lg:h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+2876:        <div className={cn(
+2922:        <div className="flex items-center gap-6">
+2923:          <div className="hidden xl:flex gap-6 border-l border-slate-200 pl-6">
+2924:            <div>
+2928:            <div>
+2936:          <div className="flex items-center gap-3">
+2937:            <div className={cn(
+2961:          <div className="absolute top-20 left-1/2 -translate-x-1/2 z-50 w-full max-w-xl px-4">
+2968:              <div className="flex-1">
+3002:          <div 
+3007:            <div className="lg:hidden space-y-1 bg-slate-50 p-2 rounded-2xl mb-4">
+3057:            <div className="w-full shrink-0">
+3059:               <div className="space-y-1">
+3071:                   <div className="flex items-center gap-3">
+3072:                     <div className={cn(
+3086:            <div className="w-full shrink-0">
+3088:               <div className="space-y-1">
+3102:                      <div className="flex items-center gap-3 min-w-0">
+3103:                        <div className="relative shrink-0">
+3104:                          <div className={cn(
+3111:                              <div className="w-full h-full flex items-center justify-center bg-indigo-100 text-indigo-600 font-bold text-xs uppercase">
+3132:          <div className={cn("p-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 transition-all relative shrink-0", !isSidebarOpen && "px-3 items-center")}>
+3146:              <div className="flex items-center gap-2 text-slate-600 dark:text-slate-400 relative">
+3159:              <div className={cn("absolute bottom-full left-0 mb-2 w-72 border rounded-2xl shadow-2xl p-4 z-[90]", 
+3163:                <div className="flex items-center gap-3 mb-6 p-2 rounded-xl">
+3164:                  <div className="w-10 h-10 rounded-lg overflow-hidden border border-slate-200 dark:border-slate-700 bg-white flex items-center justify-center shrink-0 shadow-sm">
+3171:                  <div className="flex flex-col items-start leading-none min-w-0">
+3198:                  <div className="flex items-center gap-2">
+3202:                  <div className={cn("w-8 h-4 rounded-full relative transition-colors", darkMode ? "bg-indigo-600" : "bg-slate-300")}>
+3203:                    <div className={cn("absolute top-0.5 w-3 h-3 rounded-full bg-white transition-all", darkMode ? "left-4.5" : "left-0.5")} style={{ left: darkMode ? "18px": "2px" }} />
+3213:            <div className="flex-1 h-full flex flex-col relative overflow-hidden bg-slate-50/30">
+3215:                <div 
+3264:                  <div className={cn(
+3268:                    <div className="flex flex-col md:flex-row md:items-end justify-between mb-4 lg:mb-8 pt-10 gap-4">
+3269:                      <div>
+3270:                        <div className="flex items-center gap-3 lg:gap-4">
+3272:                             <div className="w-8 h-8 lg:w-10 lg:h-10 rounded-full overflow-hidden shadow-sm border border-slate-200 bg-white shrink-0">
+3285:                      <div className="flex flex-col gap-3">
+3286:                        <div className="flex gap-2">
+3300:                        <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-2 sm:pb-0 px-1">
+3324:                              <div className={cn(
+3339:                      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4 mb-8 lg:mb-10">
+3340:                        <div className="bg-white p-4 lg:p-6 rounded-2xl lg:rounded-[2rem] border border-slate-100 shadow-sm flex flex-col gap-1 ring-1 ring-slate-100/50">
+3342:                          <div className="flex items-center justify-between mt-1 lg:mt-2">
+3347:                        <div className="bg-white p-4 lg:p-6 rounded-2xl lg:rounded-[2rem] border border-slate-100 shadow-sm flex flex-col gap-1 ring-1 ring-slate-100/50">
+3349:                          <div className="flex items-center justify-between mt-1 lg:mt-2">
+3354:                        <div className="bg-white p-4 lg:p-6 rounded-2xl lg:rounded-[2rem] border border-slate-100 shadow-sm flex flex-col gap-1 ring-1 ring-slate-100/50">
+3356:                          <div className="flex items-center justify-between mt-1 lg:mt-2">
+3361:                        <div className="bg-indigo-600 p-4 lg:p-6 rounded-2xl lg:rounded-[2rem] border border-indigo-500 shadow-xl shadow-indigo-100/50 flex flex-col gap-1 ring-1 ring-indigo-500">
+3363:                          <div className="flex items-center justify-between mt-1 lg:mt-2">
+3370:                      <div className="grid grid-cols-2 gap-4 mb-8">
+3376:                    <div className="space-y-4" id="complaints-list-container">
+3397:                                 <div className="bg-indigo-600 text-white px-2 py-0.5 rounded-full text-[8px]">
+3407:                          <div key={complaint.id} id={`complaint-${complaint.id}`}>
+3409:                               <div className="py-12 flex items-center gap-6">
+3410:                                  <div className="flex-1 h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent"></div>
+3414:                                  <div className="flex-1 h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent"></div>
+3466:                        <div className="flex items-center gap-2 mb-3 overflow-x-auto pb-1">
+3474:                                <div className="px-3 py-1.5 border border-slate-200 rounded-full text-xs transition-all peer-checked:bg-indigo-50 peer-checked:border-indigo-500 peer-checked:text-indigo-700 hover:bg-slate-50 font-medium whitespace-nowrap">
+3483:                                <div className="px-3 py-1.5 border border-slate-200 rounded-full text-xs transition-all peer-checked:bg-rose-50 peer-checked:border-rose-500 peer-checked:text-rose-700 hover:bg-slate-50 font-medium bg-white whitespace-nowrap">
+3492:                        <div className="flex items-end gap-2 bg-slate-50 border border-slate-200 rounded-2xl p-2 focus-within:border-indigo-500 focus-within:ring-2 focus-within:ring-indigo-100 transition-all">
+3494:                          <div className="shrink-0 relative">
+3544:                          <div className="flex items-center gap-2 mt-2 px-2">
+3560:            <div className="flex-1 overflow-y-auto p-4 md:p-8">
+3568:                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+3575:                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+3576:                  <div className="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
+3578:                    <div className="h-[320px] w-full min-w-0" style={{ width: "99%" }}>
+3604:                  <div className="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
+3606:                    <div className="h-[320px] w-full min-w-0" style={{ width: "99%" }}>
+3625:            <div className="flex-1 overflow-y-auto p-4 md:p-8">
+3633:                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+3634:                  <div>
+3636:                      <div className="w-10 h-10 rounded-2xl bg-rose-500 text-white flex items-center justify-center">
+3643:                  <div className="flex gap-3">
+3657:                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+3664:                      <div key={cat} className="bg-white rounded-3xl border border-slate-200 p-6 hover:shadow-xl hover:shadow-slate-100 transition-all group">
+3665:                        <div className="flex items-center justify-between mb-6">
+3666:                          <div className={cn(
+3672:                          <div className="text-right">
+3680:                        <div className="flex items-center gap-2 mb-4">
+3681:                          <div className="h-1.5 flex-1 bg-slate-100 rounded-full overflow-hidden">
+3698:                <div className="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm">
+3699:                  <div className="p-6 border-b border-slate-100 bg-slate-50/50 flex items-center justify-between">
+3703:                  <div className="overflow-x-auto no-scrollbar">
+3717:                              <div className="flex flex-col gap-1">
+3728:                               <div className="flex items-center gap-4">
+3729:                                  <div className="flex items-center gap-1.5 font-bold text-slate-700">
+3733:                                  <div className="flex items-center gap-1.5 font-bold text-slate-700">
+3763:            <div className="flex-1 overflow-y-auto p-4 md:p-8 bg-slate-50">
+3769:                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+3770:                  <div>
+3780:                  <div className="bg-white p-2 lg:p-3 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-3 w-fit">
+3781:                    <div className="text-right">
+3785:                    <div className="w-8 h-8 lg:w-10 lg:h-10 bg-rose-50 rounded-xl flex items-center justify-center text-rose-500">
+3791:                <div className="space-y-4">
+3794:                      <div 
+3814:                        <div className="flex items-center justify-between mb-3">
+3815:                          <div className="flex items-center gap-2">
+3831:                    <div className="py-24 text-center bg-white rounded-3xl border border-dashed border-slate-200">
+3842:            <div className="flex-1 overflow-y-auto p-4 md:p-8 bg-slate-50">
+3848:                <div>
+3853:                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+3854:                  <div className="lg:col-span-1 space-y-6">
+3860:                         <div className="space-y-1.5">
+3864:                         <div className="space-y-1.5">
+3873:                         <div className="grid grid-cols-2 gap-3">
+3874:                           <div className="space-y-1.5">
+3878:                           <div className="space-y-1.5">
+3880:                             <div className="relative">
+3905:                  <div className="lg:col-span-2 space-y-6">
+3907:                      <div className="px-4 lg:px-6 py-3 lg:py-4 bg-slate-50 border-b border-slate-100 flex items-center justify-between">
+3911:                      <div className="divide-y divide-slate-100">
+3913:                          <div key={head.id || idx} className="p-4 flex items-center justify-between hover:bg-slate-50 transition-all">
+3914:                            <div className="flex items-center gap-3 min-w-0">
+3915:                              <div className="w-8 h-8 lg:w-10 lg:h-10 bg-slate-100 rounded-full flex items-center justify-center text-slate-400 border border-slate-200 shrink-0">
+3918:                              <div className="min-w-0">
+3920:                                <div className="flex items-center gap-2 mt-0.5">
+3926:                            <div className="flex items-center gap-2 lg:gap-3 shrink-0">
+3927:                               <div className="text-right mr-2 lg:mr-4">
+3937:                          <div className="py-16 lg:py-20 text-center">
+3948:                       <div className="p-4 bg-indigo-50 rounded-2xl border border-indigo-100">
+3961:            <div className="flex-1 overflow-hidden flex flex-col bg-slate-50">
+3962:              <div className="bg-white border-b border-slate-200 px-4 lg:px-8 py-4 shrink-0">
+3963:                <div className="flex items-center justify-between mb-4">
+3964:                  <div className="min-w-0">
+3972:                    <div className="flex gap-3 lg:gap-4 overflow-x-auto pb-2 no-scrollbar">
+4001:              <div className="flex-1 overflow-y-auto p-4 lg:p-8">
+4010:                  <div className="space-y-6 lg:space-y-8">
+4011:                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+4012:                      <div className="bg-white p-4 lg:p-6 rounded-2xl lg:rounded-3xl border border-slate-200 shadow-sm relative overflow-hidden group">
+4013:                        <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity hidden lg:block">
+4018:                        <div className="mt-2 lg:mt-4 flex items-center gap-1 lg:gap-1.5 text-[8px] lg:text-[10px] font-bold text-emerald-600 uppercase tracking-wide">
+4019:                          <div className="w-1 lg:w-1.5 h-1 lg:h-1.5 bg-emerald-500 rounded-full"></div>
+4023:                      <div className="bg-white p-4 lg:p-6 rounded-2xl lg:rounded-3xl border border-slate-200 shadow-sm relative overflow-hidden group">
+4024:                        <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity hidden lg:block">
+4029:                        <div className="mt-2 lg:mt-4 flex items-center gap-1 lg:gap-1.5 text-[8px] lg:text-[10px] font-bold text-indigo-600 uppercase tracking-wide">
+4034:                      <div className="bg-white p-4 lg:p-6 rounded-2xl lg:rounded-3xl border border-slate-200 shadow-sm relative overflow-hidden group">
+4035:                        <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity hidden lg:block">
+4040:                        <div className="mt-2 lg:mt-4 flex items-center gap-1 lg:gap-1.5 text-[8px] lg:text-[10px] font-bold text-amber-600 uppercase tracking-wide">
+4045:                      <div className="bg-white p-4 lg:p-6 rounded-2xl lg:rounded-3xl border border-slate-200 shadow-sm relative overflow-hidden group">
+4046:                        <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity hidden lg:block">
+4051:                        <div className="mt-2 lg:mt-4 flex items-center gap-1 lg:gap-1.5 text-[8px] lg:text-[10px] font-bold text-slate-400 uppercase tracking-wide">
+4058:                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+4059:                      <div className="lg:col-span-2 space-y-6">
+4061:                          <div className="flex items-center justify-between mb-8">
+4063:                             <div className="px-3 py-1 bg-emerald-50 text-emerald-700 text-[10px] font-black rounded-lg border border-emerald-100 flex items-center gap-2">
+4064:                               <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></div>
+4068:                          <div className="space-y-4">
+4075:                               <div key={idx} className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-100">
+4076:                                 <div className="flex items-center gap-3">
+4077:                                   <div className="w-2 h-2 rounded-full bg-emerald-500 shadow-lg shadow-emerald-200"></div>
+4080:                                 <div className="flex items-center gap-4">
+4089:                      <div className="space-y-6">
+4091:                          <div className="relative z-10">
+4096:                            <div className="space-y-3">
+4097:                              <div className="flex items-center gap-3 p-3 bg-white/5 rounded-xl border border-white/10">
+4101:                              <div className="flex items-center gap-3 p-3 bg-white/5 rounded-xl border border-white/10">
+4107:                          <div className="absolute bottom-0 right-0 -mb-10 -mr-10 opacity-10">
+4116:                  <div className="space-y-8">
+4117:                    <div className="bg-indigo-50 border border-indigo-100 p-6 rounded-3xl max-w-4xl mx-auto">
+4119:                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+4120:                          <div className="space-y-1">
+4124:                          <div className="space-y-1">
+4128:                          <div className="space-y-1">
+4134:                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+4135:                    <div className="space-y-6">
+4137:                            <div className="p-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+4138:                              <div className="flex items-center gap-2.5">
+4143:                            <div className="p-6">
+4145:                                <div className="grid grid-cols-2 gap-3">
+4146:                                  <div className="space-y-1.5">
+4155:                                  <div className="space-y-1.5">
+4164:                                  <div className="space-y-1.5">
+4173:                                  <div className="space-y-1.5">
+4182:                                  <div className="col-span-2 space-y-1.5">
+4210:                                <div className="absolute top-0 right-0 p-2">
+4215:                                <div className="flex items-center gap-2 mb-3">
+4219:                                <div className="space-y-2">
+4220:                                  <div className="flex justify-between border-b border-indigo-800 pb-1">
+4224:                                  <div className="flex justify-between border-b border-indigo-800 pb-1">
+4239:                    <div className="space-y-6">
+4241:                        <div className="p-5 border-b border-slate-100 bg-slate-50 flex items-center justify-between">
+4245:                        <div className="divide-y divide-slate-100">
+4247:                            <div key={uni.id || idx} className="p-4 flex items-center justify-between hover:bg-slate-50 transition-all">
+4248:                              <div className="flex items-center gap-3">
+4249:                                <div className="w-10 h-10 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400">
+4252:                                <div>
+4254:                                  <div className="flex items-center gap-2 mt-0.5">
+4265:                              <div className="flex gap-2">
+4298:                  <div className="space-y-6">
+4300:                      <div className="p-6 border-b border-slate-100 bg-slate-50/50">
+4301:                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+4302:                          <div>
+4315:                          <div className="flex items-center gap-3">
+4327:                            <div className="relative">
+4339:                      <div className="overflow-x-auto">
+4353:                                  <div className="flex items-center gap-3">
+4354:                                    <div className="w-9 h-9 rounded-xl bg-slate-100 flex items-center justify-center text-slate-400 font-bold text-xs uppercase shadow-inner">
+4357:                                    <div>
+4364:                                  <div className="flex items-center gap-2">
+4365:                                    <div className="w-1.5 h-1.5 rounded-full bg-indigo-400"></div>
+4381:                                  <div className="flex items-center justify-end gap-2 transition-opacity">
+4424:                  <div className="space-y-6 max-w-5xl mx-auto">
+4426:                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+4429:                      <div className="md:col-span-1 bg-white border border-slate-200 rounded-3xl p-6 shadow-sm flex flex-col justify-between">
+4430:                        <div>
+4439:                          <div className="space-y-3 mb-6">
+4454:                        <div>
+4457:                              <div className="text-center">
+4462:                              <div className="text-center">
+4480:                      <div className="md:col-span-2 bg-gradient-to-br from-indigo-900 to-slate-900 text-white rounded-3xl p-6 lg:p-8 flex flex-col justify-between shadow-lg shadow-indigo-100">
+4481:                        <div>
+4482:                          <div className="flex items-center gap-2 mb-4">
+4493:                        <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 mt-6 pt-6 border-t border-white/10">
+4494:                          <div>
+4498:                          <div>
+4507:                    <div className="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-sm">
+4508:                      <div className="p-5 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+4509:                        <div>
+4514:                        <div className="relative">
+4525:                      <div className="overflow-x-auto flex-1 min-h-[300px]">
+4527:                          <div className="py-24 text-center">
+4588:                   <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+4589:                     <div className="lg:col-span-1 space-y-6">
+4591:                          <div className="flex items-center gap-2 mb-6 text-rose-500">
+4604:                          <div className="flex flex-wrap gap-2">
+4614:                     <div className="lg:col-span-2 space-y-6">
+4618:                           <div className="mb-6 bg-slate-50 p-4 rounded-xl border border-slate-100">
+4620:                              <div className="grid grid-cols-2 gap-2 mb-2">
+4624:                              <div className="flex gap-2">
+4629:                           <div className="grid grid-cols-2 gap-4">
+4631:                                <div key={c.id || c.name} className="p-4 bg-slate-50 rounded-xl border border-slate-100 flex justify-between items-start">
+4632:                                   <div>
+4649:                      <div className="p-5 border-b border-slate-100 bg-slate-50/50 flex items-center justify-between">
+4650:                         <div className="flex items-center gap-2 text-indigo-600">
+4656:                      <div className="divide-y divide-slate-100 max-h-[700px] overflow-y-auto">
+4658:                          <div key={log.id} className="p-5 hover:bg-slate-50/50 transition-all">
+4659:                             <div className="flex items-center justify-between mb-3">
+4660:                               <div className="flex items-center gap-2">
+4669:                               <div className="flex items-center gap-1.5">
+4670:                                 <div className="w-2 h-2 rounded-full bg-emerald-500"></div>
+4674:                             <div className="flex items-center gap-2 mb-3">
+4675:                                <div className="w-5 h-5 rounded-full bg-slate-200"></div>
+4678:                             <div className="bg-slate-900 rounded-2xl p-4 overflow-x-auto border border-slate-800">
+4694:      <div className={cn(
+4743:        <div className="flex gap-4">
+4763:    <div className={cn(
+4781:    <div className={cn(
+4806:    <div className="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+4821:    <div className={cn("p-6 rounded-2xl border bg-white shadow-sm transition-all hover:shadow-md", colors[color])}>

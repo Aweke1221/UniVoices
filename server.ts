@@ -3,6 +3,7 @@ import path from "path";
 import { createServer as createViteServer } from "vite";
 import dotenv from "dotenv";
 import fileUpload from "express-fileupload";
+import nodemailer from "nodemailer";
 import { initDb, query } from "./src/lib/db";
 
 dotenv.config();
@@ -297,6 +298,8 @@ async function startServer() {
     let formattedPhone = phone.trim();
     if (formattedPhone.startsWith("0")) {
       formattedPhone = "+251" + formattedPhone.slice(1);
+    } else if (formattedPhone.startsWith("7") || formattedPhone.startsWith("9")) {
+      formattedPhone = "+251" + formattedPhone;
     } else if (!formattedPhone.startsWith("+")) {
       formattedPhone = "+" + formattedPhone;
     }
@@ -335,6 +338,17 @@ async function startServer() {
         } else {
           const errText = await response.text();
           console.error(`[Twilio SMS Error]`, errText);
+          
+          let parsedError;
+          try {
+            parsedError = JSON.parse(errText);
+          } catch(e) {}
+
+          if (parsedError?.code === 21608) {
+            console.log(`[SMS Simulation] Twilio Trial Limit hit, simulation OTP for ${formattedPhone}: ${otp}`);
+            return { success: true, provider: "Simulation (Twilio Limit)" };
+          }
+          
           return { success: false, provider: "Twilio", details: errText };
         }
       } catch (err: any) {
@@ -388,35 +402,76 @@ async function startServer() {
     return { success: true, provider: "Simulation (No Credentials Set)" };
   };
 
-  // Register - Stage 1: Phone Verification
+  // Helper to send email OTP
+  const sendEmailOtp = async (email: string, otp: string): Promise<{ success: boolean; provider: string; details?: string }> => {
+    if (!process.env.SMTP_HOST || !process.env.SMTP_USER || !process.env.SMTP_PASS) {
+      console.log(`[Email Simulation] OTP for ${email}: ${otp}`);
+      return { success: true, provider: "Simulation (No SMTP Credentials)" };
+    }
+
+    const transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST,
+      port: Number(process.env.SMTP_PORT),
+      secure: Number(process.env.SMTP_PORT) === 465,
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
+      },
+    });
+
+    try {
+      await transporter.sendMail({
+        from: process.env.SMTP_FROM || process.env.SMTP_USER,
+        to: email,
+        subject: "University Portal Verification Code",
+        text: `Your university portal registration verification code is: ${otp}. Do not share this OTP with anyone.`,
+      });
+      console.log(`[Email OTP] Sent success to ${email}`);
+      return { success: true, provider: "SMTP" };
+    } catch (err: any) {
+      console.error(`[Email Exception]`, err);
+      return { success: false, provider: "SMTP", details: err.message };
+    }
+  };
+
+  // Register - Stage 1: Phone or Email Verification
   app.post("/api/auth/send-otp", async (req, res) => {
-    const { phone } = req.body;
-    if (!phone) return res.status(400).json({ error: "Phone number required" });
+    const { phone, email } = req.body;
+    if (!phone && !email) return res.status(400).json({ error: "Phone number or email required" });
     
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
-    otpStore.set(phone, otp);
+    const identifier = phone || email;
+    otpStore.set(identifier, otp);
     
-    const smsResult = await sendSmsOtp(phone, otp);
+    let result;
+    if (phone) {
+        result = await sendSmsOtp(phone, otp);
+    } else {
+        result = await sendEmailOtp(email, otp);
+    }
+
+    if (!result.success) {
+      return res.status(400).json({ error: result.details || "Failed to send verification code." });
+    }
     
     res.json({ 
-      message: smsResult.provider.includes("Simulation") 
-        ? "Verification code simulated in Console log (To send real SMS, configure your Twilio or Infobip keys)." 
-        : `Verification SMS disptached successfully via ${smsResult.provider}!`,
-      phone,
-      provider: smsResult.provider,
-      simulated: smsResult.provider.includes("Simulation"),
-      // Expose OTP only if running in simulation mode for ease of development/testing in the preview sandbox
-      code: smsResult.provider.includes("Simulation") ? otp : undefined 
+      message: result.provider.includes("Simulation") 
+        ? "Verification code simulated in Console log (To send real messages, configure your credentials)." 
+        : `Verification dispatched successfully via ${result.provider}!`,
+      identifier,
+      provider: result.provider,
+      simulated: result.provider.includes("Simulation"),
+      code: result.provider.includes("Simulation") ? otp : undefined 
     });
   });
 
   // Register - Stage 2: Verify OTP
   app.post("/api/auth/verify-otp", async (req, res) => {
-    const { phone, otp } = req.body;
-    const storedOtp = otpStore.get(phone);
+    const { identifier, otp } = req.body;
+    const storedOtp = otpStore.get(identifier);
     
     if (storedOtp && storedOtp === otp) {
-      res.json({ success: true, message: "Phone verified" });
+      res.json({ success: true, message: "Verification successful" });
     } else {
       res.status(400).json({ error: "Invalid or expired OTP" });
     }
@@ -424,25 +479,25 @@ async function startServer() {
 
   // Register - Stage 3: Complete registration
   app.post("/api/auth/register", async (req, res) => {
-    const { username, password, phone, fullName, studentId, universityId, role, assignedCategory } = req.body;
+    const { username, password, phone, email, fullName, studentId, universityId, role, assignedCategory } = req.body;
     try {
       // Check if unique fields already exist
       const existing = await query(
-        "SELECT id FROM users WHERE username = $1 OR phone = $2 OR student_id_number = $3", 
-        [username, phone, studentId]
+        "SELECT id FROM users WHERE username = $1 OR ($2::TEXT IS NOT NULL AND phone = $2) OR ($3::TEXT IS NOT NULL AND email = $3) OR student_id_number = $4", 
+        [username, phone, email, studentId]
       );
       if (existing.rows.length > 0) {
-        return res.status(400).json({ error: "Username, Phone, or Student ID already registered" });
+        return res.status(400).json({ error: "Username, Phone, Email, or Student ID already registered" });
       }
 
       const result = await query(
-        `INSERT INTO users (full_name, username, password, phone, student_id_number, role, university_id, assigned_category, is_verified)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, true)
+        `INSERT INTO users (full_name, username, password, phone, email, student_id_number, role, university_id, assigned_category, is_verified)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, true)
          RETURNING *`,
-        [fullName, username, password, phone, studentId, role || 'STUDENT', toUuid(universityId), assignedCategory || null]
+        [fullName, username, password, phone, email, studentId, role || 'STUDENT', toUuid(universityId), assignedCategory || null]
       );
       
-      otpStore.delete(phone);
+      otpStore.delete(phone || email);
       res.json(result.rows[0]);
     } catch (err) {
       console.error(err);
@@ -525,6 +580,16 @@ async function startServer() {
         return res.status(400).json({ error: "Your report contains restricted vocabulary. It has been flagged for audit." });
       }
 
+      // 3. Verify user ID exists before inserting (Foreign Key protection)
+      if (studentId) {
+        const userCheck = await query("SELECT id FROM users WHERE id = $1", [studentId]);
+        if (userCheck.rows.length === 0) {
+            console.log(`[Complaint Submission] User ID ${studentId} not found in DB.`);
+            return res.status(400).json({ error: "Invalid User session." });
+        }
+      }
+
+      console.log(`[Complaint Submission] StudentID: ${studentId}, UnivID: ${universityId}, Category: ${category}`);
       const result = await query(
         "INSERT INTO complaints (student_id, university_id, category, description, evidence_url) VALUES ($1, $2, $3, $4, $5) RETURNING *",
         [studentId, universityId, category, description, evidenceUrl || null]
@@ -1232,10 +1297,12 @@ async function startServer() {
     const id = toUuid(req.params.id);
     if (!id) return res.status(400).json({ error: "Invalid User ID" });
     try {
+      console.log(`[PATCH Settings] Updating user ${id} with:`, settings);
       const result = await query(
-        "UPDATE users SET settings = $1, updated_at = NOW() WHERE id = $2 RETURNING *",
-        [settings, id]
+        "UPDATE users SET settings = $1::jsonb, updated_at = NOW() WHERE id = $2 RETURNING *",
+        [JSON.stringify(settings), id]
       );
+      console.log(`[PATCH Settings] User ${id} updated:`, result.rows[0]);
       res.json(result.rows[0]);
     } catch (err) {
       console.error(err);

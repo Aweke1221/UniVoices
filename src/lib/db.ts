@@ -691,6 +691,7 @@ export async function initDb() {
       `ALTER TABLE users ADD COLUMN IF NOT EXISTS username TEXT UNIQUE`,
       `ALTER TABLE users ADD COLUMN IF NOT EXISTS password TEXT`,
       `ALTER TABLE users ADD COLUMN IF NOT EXISTS phone TEXT UNIQUE`,
+      `ALTER TABLE users ADD COLUMN IF NOT EXISTS email TEXT UNIQUE`,
       `ALTER TABLE users ADD COLUMN IF NOT EXISTS avatar_url TEXT`,
       `ALTER TABLE users ADD COLUMN IF NOT EXISTS bio TEXT`,
       `ALTER TABLE users ADD COLUMN IF NOT EXISTS settings JSONB DEFAULT '{}'`,

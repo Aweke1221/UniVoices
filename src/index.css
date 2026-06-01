@@ -10,8 +10,8 @@
   body {
     @apply bg-slate-50 text-slate-900 antialiased transition-colors duration-300;
   }
-  .dark {
-    @apply bg-slate-950 text-slate-50;
+  .dark body {
+    @apply !bg-slate-900 !text-white;
   }
 }
 

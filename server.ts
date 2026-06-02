@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import fileUpload from "express-fileupload";
 import nodemailer from "nodemailer";
 import { initDb, query } from "./src/lib/db";
+import { moderateContent, translateText } from "./src/lib/aiModeration";
 
 dotenv.config();
 
@@ -48,6 +49,19 @@ async function startServer() {
 
   app.get("/api/health", (req, res) => {
     res.json({ status: "ok", mode: process.env.NODE_ENV });
+  });
+
+  app.post("/api/translate", async (req, res) => {
+    const { text } = req.body;
+    if (!text) {
+      return res.status(400).json({ error: "Text is required for translation." });
+    }
+    try {
+      const translated = await translateText(text);
+      res.json({ translatedText: translated });
+    } catch (err: any) {
+      res.status(400).json({ error: err.message || "Translation helper is busy." });
+    }
   });
 
   // Universities
@@ -563,6 +577,23 @@ async function startServer() {
         return res.status(403).json({ error: "This institution's portal is restricted. Submissions suspended." });
       }
 
+      // 1.5 Real-Time AI Content Moderation for Abuse and Rice/Spam reports
+      const modResult = await moderateContent(description);
+      if (modResult.blocked) {
+        await query(
+          "INSERT INTO system_audit_logs (user_id, action, details) VALUES ($1, $2, $3)",
+          [studentId, 'CONTENT_FLAGGED', { 
+            text: description, 
+            universityId, 
+            category: modResult.category, 
+            reason: modResult.reason,
+            confidence: modResult.confidence,
+            aiBlocked: true
+          }]
+        );
+        return res.status(400).json({ error: `Blocked by AI Guardrails: ${modResult.reason}` });
+      }
+
       // 2. Content Moderation (Banned Words)
       const bannedWordsRes = await query("SELECT word FROM banned_words");
       const bannedWords = bannedWordsRes.rows.map(r => r.word);
@@ -897,6 +928,24 @@ async function startServer() {
 
     if (!complaintId || !userId) return res.status(400).json({ error: "Invalid Credentials or ID" });
     try {
+      // Real-Time AI Content Moderation for Comments
+      const modResult = await moderateContent(text);
+      if (modResult.blocked) {
+        await query(
+          "INSERT INTO system_audit_logs (user_id, action, details) VALUES ($1, $2, $3)",
+          [userId, 'CONTENT_FLAGGED', { 
+            text: text, 
+            complaintId, 
+            category: modResult.category, 
+            reason: modResult.reason,
+            confidence: modResult.confidence,
+            aiBlocked: true,
+            target: 'comment'
+          }]
+        );
+        return res.status(400).json({ error: `Blocked by AI Guardrails: ${modResult.reason}` });
+      }
+
       const result = await query(
         "INSERT INTO comments (complaint_id, user_id, text, is_official, evidence_url) VALUES ($1, $2, $3, $4, $5) RETURNING *",
         [complaintId, userId, text, isOfficial || false, evidenceUrl || null]

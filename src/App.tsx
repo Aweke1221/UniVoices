@@ -37,6 +37,7 @@ import {
   Users,
   Bell,
   Flame,
+  Sparkles,
   Zap,
   Search,
   Globe,
@@ -63,7 +64,6 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import * as XLSX from "xlsx";
-import { GoogleGenAI } from "@google/genai";
 import { University, User, Complaint, Comment, Category, Role } from "./types";
 import { cn, formatTimeAgo } from "./lib/utils";
 import { 
@@ -129,6 +129,7 @@ interface ComplaintCardProps {
   onDelete?: (id: string) => void;
   onEdit?: (id: string, description: string, category: string) => Promise<void>;
   onVisit?: (id: string) => void;
+  showNotify?: (message: string, type?: 'success' | 'error' | 'info') => void;
 }
 
 const CategoryIcon = ({ cat }: { cat: string }) => {
@@ -150,7 +151,8 @@ const ComplaintCard = ({
   onRefresh,
   onDelete,
   onEdit,
-  onVisit
+  onVisit,
+  showNotify
 }: ComplaintCardProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -162,23 +164,28 @@ const ComplaintCard = ({
   const [commentFile, setCommentFile] = useState<string | null>(null);
   const [translatedText, setTranslatedText] = useState<string | null>(null);
   const [isTranslating, setIsTranslating] = useState(false);
+  const [translationError, setTranslationError] = useState<string | null>(null);
 
   const handleTranslate = async () => {
-    if (!process.env.GEMINI_API_KEY) {
-      console.warn("GEMINI_API_KEY is not set.");
-      return;
-    }
     setIsTranslating(true);
+    setTranslationError(null);
     try {
-      const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-      const prompt = `Detect the language of this text. If it is English, translate it to Amharic. If it is any other language (like Amharic, Afan Oromo, or Tigrinya), translate it to English. Return ONLY the translated text. Text: "${complaint.description}"`;
-      
-      const response = await ai.models.generateContent({
-        model: "gemini-3-flash-preview",
-        contents: prompt,
+      const res = await fetch("/api/translate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: complaint.description }),
       });
-      setTranslatedText(response.text);
-    } catch (error) {
+      const data = await res.json();
+      if (res.ok && data.translatedText) {
+        setTranslatedText(data.translatedText);
+      } else {
+        const errMsg = data.error || "Unknown translation error.";
+        setTranslationError(errMsg);
+        console.error("Translation returned an error:", errMsg);
+      }
+    } catch (error: any) {
+      const catchMsg = error.message || "Failed to connect to the translation service.";
+      setTranslationError(catchMsg);
       console.error("Translation error:", error);
     } finally {
       setIsTranslating(false);
@@ -223,20 +230,34 @@ const ComplaintCard = ({
     e.preventDefault();
     if (!newComment.trim() && !commentFile) return;
     
-    await fetch(`/api/complaints/${complaint.id}/comments`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        userId: user.id,
-        text: newComment,
-        isOfficial: user.role === "UNI_ADMIN" || user.role === "MOE",
-        evidenceUrl: commentFile
-      })
-    });
-    setNewComment("");
-    setCommentFile(null);
-    fetchComments();
-    onRefresh();
+    try {
+      const res = await fetch(`/api/complaints/${complaint.id}/comments`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId: user.id,
+          text: newComment,
+          isOfficial: user.role === "UNI_ADMIN" || user.role === "MOE",
+          evidenceUrl: commentFile
+        })
+      });
+      
+      const data = await res.json();
+      if (res.ok) {
+        setNewComment("");
+        setCommentFile(null);
+        fetchComments();
+        onRefresh();
+      } else {
+        if (showNotify) {
+          showNotify(data.error || "Failed to post comment", "error");
+        } else {
+          console.warn("Comment blocked:", data.error);
+        }
+      }
+    } catch (err) {
+      console.error("Error posting comment:", err);
+    }
   };
 
   const submitAdministrativeMemo = async (e: React.FormEvent) => {
@@ -450,21 +471,28 @@ const ComplaintCard = ({
               )}
 
 
-          <div className="flex gap-4 mb-4">
+          <div className="flex flex-col gap-1.5 mb-4">
             <button 
               onClick={async () => {
                 if (translatedText) {
                   setTranslatedText(null);
+                  setTranslationError(null);
                 } else {
                   await handleTranslate();
                 }
               }}
               disabled={isTranslating}
-              className="flex items-center gap-1.5 text-[10px] font-bold text-slate-500 uppercase hover:text-indigo-600 disabled:opacity-50 transition-colors"
+              className="flex items-center gap-1.5 text-[10px] font-bold text-slate-500 uppercase hover:text-indigo-600 disabled:opacity-50 transition-colors self-start"
             >
               <Languages className="w-3.5 h-3.5" />
               {isTranslating ? 'Translating...' : (translatedText ? 'Show Original' : `Translate to ${hasEthiopic ? 'English' : 'Amharic'}`)}
             </button>
+            {translationError && (
+              <span className="text-[10px] text-rose-500 bg-rose-50/50 border border-rose-100 rounded-lg px-2.5 py-1.5 font-semibold flex items-center gap-1.5 max-w-sm">
+                <AlertCircle className="w-3.5 h-3.5 flex-shrink-0 text-rose-500" />
+                {translationError}
+              </span>
+            )}
           </div>
 
           {complaint.evidence_url && (
@@ -3423,6 +3451,7 @@ export default function App() {
                               onDelete={handleDeleteComplaint}
                               onEdit={handleEditComplaint}
                               onVisit={handleVisit}
+                              showNotify={showNotify}
                             />
                           </div>
                         ))
@@ -4587,6 +4616,41 @@ export default function App() {
                 {govSubTab === "POLICIES" && (
                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                      <div className="lg:col-span-1 space-y-6">
+                       <section className="bg-gradient-to-br from-indigo-950 via-slate-900 to-black rounded-3xl overflow-hidden p-6 shadow-xl border border-slate-800 text-white relative">
+                         <div className="absolute top-0 right-0 p-8 opacity-25 pointer-events-none">
+                           <Sparkles className="w-20 h-20 text-indigo-400" />
+                         </div>
+                         <div className="relative z-10">
+                           <div className="flex items-center gap-2 mb-4 text-emerald-400">
+                             <Sparkles className="w-4 h-4" />
+                             <h3 className="text-xs font-black uppercase tracking-widest">Real-time AI Guardrails</h3>
+                           </div>
+                           <div className="p-4 bg-white/5 rounded-2xl border border-white/10 mb-5 backdrop-blur-sm">
+                             <div className="flex items-center gap-2 mb-2">
+                               <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></div>
+                               <span className="text-[9px] font-black text-emerald-300 uppercase tracking-wider">AI Shield Active</span>
+                             </div>
+                             <p className="text-[11px] text-slate-300 leading-relaxed font-semibold">
+                               Deep neural moderation automatically scans reports and comments to block toxicity, harassment, other forms of abuse, and nonsensical spam ("rice") submissions.
+                             </p>
+                           </div>
+                           <div className="space-y-2.5">
+                             <div className="flex justify-between items-center text-[10px] border-b border-white/5 pb-2">
+                               <span className="text-slate-400 font-bold uppercase tracking-wider">Engine Model</span>
+                               <span className="font-mono text-indigo-300 bg-white/5 px-2 py-0.5 rounded border border-white/10">gemini-3.5-flash</span>
+                             </div>
+                             <div className="flex justify-between items-center text-[10px] border-b border-white/5 pb-2">
+                               <span className="text-slate-400 font-bold uppercase tracking-wider">Abuse Filter</span>
+                               <span className="font-black text-rose-400">Immediate Block</span>
+                             </div>
+                             <div className="flex justify-between items-center text-[10px] pb-1">
+                               <span className="text-slate-400 font-bold uppercase tracking-wider">Spam/Rice Filter</span>
+                               <span className="font-black text-amber-400">Active Block</span>
+                             </div>
+                           </div>
+                         </div>
+                       </section>
+
                         <section className="bg-white rounded-2xl border border-slate-200 overflow-hidden p-6 shadow-sm">
                           <div className="flex items-center gap-2 mb-6 text-rose-500">
                              <ShieldX className="w-4 h-4" />

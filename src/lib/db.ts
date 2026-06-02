@@ -23,8 +23,8 @@ export function getPool() {
     pool = new Pool({
       connectionString: connectionString || undefined,
       ssl: process.env.NODE_ENV === "production" ? { rejectUnauthorized: false } : false,
-      connectionTimeoutMillis: 10000, // Fail connection attempt after 10 seconds
-      query_timeout: 30000,           // Fail running query after 30 seconds
+      connectionTimeoutMillis: 2000, // Fast connection check - fail over to local JSON DB in 2 seconds instead of 10
+      query_timeout: 10000,          // Query executes in max 10 seconds
     });
     
     // Test the connection immediately and log issues

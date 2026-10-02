@@ -14,26 +14,33 @@ let useLocalFallback = false;
 
 export function getPool() {
   if (!pool) {
-    const connectionString = process.env.DATABASE_URL;
+    let connectionString = process.env.DATABASE_URL;
     if (!connectionString) {
       console.warn("DATABASE_URL is not set. Database operations will default to local fallback.");
     } else if (connectionString && (connectionString.startsWith("http://") || connectionString.startsWith("https://"))) {
       console.error("DATABASE_URL must be a PostgreSQL connection string (postgresql://...), not an HTTP/REST URL.");
+    } else {
+      // Auto-repair unencoded @ in password if present (e.g. :@password@host -> :%40password@host)
+      const matches = connectionString.match(/^postgresql:\/\/(.*?):(.*?)@([^@]+)$/);
+      if (matches && matches[2].includes("@")) {
+        connectionString = `postgresql://${matches[1]}:${encodeURIComponent(matches[2])}@${matches[3]}`;
+      }
     }
+
+    const isRemote = connectionString && !connectionString.includes("localhost") && !connectionString.includes("127.0.0.1");
+    const sslConfig = (isRemote || process.env.NODE_ENV === "production") ? { rejectUnauthorized: false } : false;
+
     pool = new Pool({
       connectionString: connectionString || undefined,
-      ssl: process.env.NODE_ENV === "production" ? { rejectUnauthorized: false } : false,
-      connectionTimeoutMillis: 2000, // Fast connection check - fail over to local JSON DB in 2 seconds instead of 10
-      query_timeout: 10000,          // Query executes in max 10 seconds
+      ssl: sslConfig,
+      connectionTimeoutMillis: 10000,
+      idleTimeoutMillis: 30000,
+      max: 10,
     });
-    
-    // Test the connection immediately and log issues
+
+    // Handle background idle client errors without turning on local fallback latch
     pool.on('error', (err: any) => {
-      console.error('Unexpected error on idle database client', err.message);
-      if (err.code === 'ECONNREFUSED' || err.code === 'ENOTFOUND') {
-        console.warn('⚠️ Postgres connection failed. Entering local file-based database fallback mode...');
-        useLocalFallback = true;
-      }
+      console.error('Unexpected idle database client background error:', err.message);
     });
   }
   return pool;
@@ -43,7 +50,7 @@ export function getPool() {
 // LOCAL FILE-BASED SQL FALLBACK ENGINE
 // ==========================================
 
-const dbFilePath = path.join(process.cwd(), "local_db.json");
+const dbFilePath = path.join(process.cwd(), "ocal_db.json");
 
 interface LocalDb {
   universities: any[];
@@ -216,7 +223,7 @@ function saveLocalDb() {
 
 export function runLocalQuery(text: string, params?: any[]): any {
   const norm = text.replace(/\s+/g, " ").trim();
-  
+
   // 1. SELECT UNIVERSITIES
   if (norm.includes("FROM pre_registered_students")) {
     const studentIdMatch = norm.match(/student_id\s*=\s*\$(\d+)/i);
@@ -238,7 +245,7 @@ export function runLocalQuery(text: string, params?: any[]): any {
   }
 
   if (norm.includes("SELECT * FROM universities")) {
-    return { rows: fallbackData.universities.sort((a,b) => a.name.localeCompare(b.name)) };
+    return { rows: fallbackData.universities.sort((a, b) => a.name.localeCompare(b.name)) };
   }
   if (norm.includes("SELECT is_frozen FROM universities WHERE id = $1")) {
     const uni = fallbackData.universities.find(u => u.id === params?.[0]);
@@ -337,7 +344,7 @@ export function runLocalQuery(text: string, params?: any[]): any {
   // 5. COMPLAINTS LIST WITH JOINS
   if (norm.includes("FROM complaints c")) {
     let list = [...fallbackData.complaints];
-    
+
     // Parse dynamic university bounds
     const uniMatch = norm.match(/c\.university_id\s*=\s*\$(\d+)/i);
     if (uniMatch) {
@@ -356,8 +363,8 @@ export function runLocalQuery(text: string, params?: any[]): any {
       const hasUpvoted = params?.[0] && fallbackData.upvotes.some(u => u.complaint_id === c.id && u.user_id === params[0]);
       const reactRelation = params?.[0] && fallbackData.complaint_reactions.find(r => r.complaint_id === c.id && r.user_id === params[0]);
       const comments_count = fallbackData.comments.filter(comm => comm.complaint_id === c.id).length;
-      
-      const parsedEvidenceUrl = c.evidence_url && c.evidence_url.startsWith('data:') 
+
+      const parsedEvidenceUrl = c.evidence_url && c.evidence_url.startsWith('data:')
         ? `/api/complaints/${c.id}/evidence?type=${c.evidence_url.split(';')[0].split('/')[1] || 'image'}`
         : c.evidence_url;
 
@@ -375,6 +382,7 @@ export function runLocalQuery(text: string, params?: any[]): any {
         evidence_url: parsedEvidenceUrl
       };
     });
+    rows.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
     return { rows };
   }
 
@@ -383,7 +391,7 @@ export function runLocalQuery(text: string, params?: any[]): any {
     return { rows: c ? [{ student_id: c.student_id }] : [] };
   }
   if (norm.includes("SELECT id, created_at, university_id FROM complaints ORDER BY created_at DESC LIMIT 1000")) {
-    const list = [...fallbackData.complaints].sort((a,b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()).slice(0, 1000);
+    const list = [...fallbackData.complaints].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()).slice(0, 1000);
     return { rows: list };
   }
   if (norm.includes("SELECT evidence_url FROM complaints WHERE id = $1")) {
@@ -452,7 +460,7 @@ export function runLocalQuery(text: string, params?: any[]): any {
     const table = insertMatch[1].toLowerCase();
     const cols = insertMatch[2].split(",").map(c => c.trim());
     const newRow: any = { id: crypto.randomUUID ? crypto.randomUUID() : (Math.random().toString(36).substring(2) + "-" + Date.now()) };
-    
+
     cols.forEach((col, idx) => {
       newRow[col] = params?.[idx];
     });
@@ -472,7 +480,7 @@ export function runLocalQuery(text: string, params?: any[]): any {
     const table = updateMatch[1].toLowerCase();
     const whereClause = updateMatch[3];
     const whereMatch = whereClause.match(/(\w+)\s*=\s*\$(\d+)/i);
-    
+
     if (whereMatch) {
       const targetCol = whereMatch[1];
       const targetVal = params?.[parseInt(whereMatch[2]) - 1];
@@ -523,14 +531,140 @@ export function runLocalQuery(text: string, params?: any[]): any {
 // CENTRAL QUERY & INITIALIZATION INTERFACE
 // ==========================================
 
-export async function query(text: string, params?: any[]) {
-  if (useLocalFallback) {
-    return runLocalQuery(text, params);
+async function syncLocalDbToPostgres(p: pg.Pool) {
+  try {
+    if (!fs.existsSync(dbFilePath)) return;
+    const dataStr = fs.readFileSync(dbFilePath, "utf-8");
+    const jsonDb: LocalDb = JSON.parse(dataStr);
+
+    console.log("Syncing local_db.json records to PostgreSQL...");
+    const universityIds = new Map<string, string>();
+    const userIds = new Map<string, string>();
+
+    // 1. Sync Universities
+    if (jsonDb.universities && Array.isArray(jsonDb.universities)) {
+      for (const u of jsonDb.universities) {
+        if (!u.id || !u.name) continue;
+        try {
+          const result = await p.query(
+            `INSERT INTO universities (name, location, logo_url, is_frozen, created_at)
+             VALUES ($1, $2, $3, $4, $5)
+             ON CONFLICT (name) DO UPDATE SET
+               location = COALESCE(EXCLUDED.location, universities.location),
+               logo_url = COALESCE(EXCLUDED.logo_url, universities.logo_url),
+               is_frozen = EXCLUDED.is_frozen
+             RETURNING id`,
+            [u.name, u.location || null, u.logo_url || null, u.is_frozen || false, u.created_at || new Date().toISOString()]
+          );
+          if (result.rows[0]?.id) universityIds.set(u.id, result.rows[0].id);
+        } catch (err: any) {
+          console.warn(`Could not migrate local university ${u.name}:`, err.message);
+        }
+      }
+    }
+
+    // 2. Sync Users
+    if (jsonDb.users && Array.isArray(jsonDb.users)) {
+      for (const u of jsonDb.users) {
+        if (!u.id || !u.full_name) continue;
+        try {
+          const universityId = universityIds.get(u.university_id) || null;
+          const existing = await p.query(
+            `SELECT id FROM users
+             WHERE id = $1 OR ($2::text IS NOT NULL AND username = $2)
+                OR ($3::text IS NOT NULL AND student_id_number = $3)
+             ORDER BY CASE WHEN id = $1 THEN 0 ELSE 1 END
+             LIMIT 1`,
+            [u.id, u.username || null, u.student_id_number || null]
+          );
+          const userId = existing.rows[0]?.id || (await p.query(
+            `INSERT INTO users (id, full_name, student_id_number, role, university_id, username, password, phone, avatar_url, bio, is_verified, account_status, settings, assigned_category, created_at)
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
+             ON CONFLICT DO NOTHING
+             RETURNING id`,
+            [
+              u.id, u.full_name, u.student_id_number || null, u.role || 'STUDENT',
+              universityId, u.username || null, u.password || null,
+              u.phone || null, u.avatar_url || null, u.bio || null,
+              u.is_verified ?? true, u.account_status || 'ACTIVE',
+              JSON.stringify(u.settings || {}), u.assigned_category || null,
+              u.created_at || new Date().toISOString()
+            ]
+          )).rows[0]?.id;
+          if (userId) userIds.set(u.id, userId);
+          else console.warn(`Could not map local user ${u.username || u.student_id_number || u.id} to PostgreSQL.`);
+        } catch (err: any) {
+          console.warn(`Could not migrate local user ${u.username || u.id}:`, err.message);
+        }
+      }
+    }
+
+    // 3. Sync Category Definitions
+    if (jsonDb.category_definitions && Array.isArray(jsonDb.category_definitions)) {
+      for (const cat of jsonDb.category_definitions) {
+        if (!cat.name) continue;
+        await p.query(
+          `INSERT INTO category_definitions (name, label, description, created_at)
+           VALUES ($1, $2, $3, $4)
+           ON CONFLICT (name) DO NOTHING`,
+          [cat.name, cat.label || cat.name, cat.description || null, cat.created_at || new Date().toISOString()]
+        );
+      }
+    }
+
+    // 4. Sync Banned Words
+    if (jsonDb.banned_words && Array.isArray(jsonDb.banned_words)) {
+      for (const b of jsonDb.banned_words) {
+        if (!b.word) continue;
+        await p.query(
+          `INSERT INTO banned_words (word, created_at)
+           VALUES ($1, $2)
+           ON CONFLICT (word) DO NOTHING`,
+          [b.word, b.created_at || new Date().toISOString()]
+        );
+      }
+    }
+
+    // 5. Sync Complaints
+    if (jsonDb.complaints && Array.isArray(jsonDb.complaints)) {
+      for (const c of jsonDb.complaints) {
+        if (!c.id || !c.category || !c.description) continue;
+        const studentId = userIds.get(c.student_id);
+        const universityId = universityIds.get(c.university_id);
+        if (!studentId || !universityId) {
+          console.warn(`Skipping local complaint ${c.id}: its student or university could not be mapped to PostgreSQL.`);
+          continue;
+        }
+        try {
+          await p.query(
+            `INSERT INTO complaints (id, student_id, university_id, category, description, upvotes_count, likes_count, dislikes_count, university_response, evidence_url, responded_at, created_at, updated_at)
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
+             ON CONFLICT (id) DO NOTHING`,
+            [
+              c.id, studentId, universityId, c.category, c.description,
+              c.upvotes_count || 0, c.likes_count || 0, c.dislikes_count || 0,
+              c.university_response || null, c.evidence_url || null, c.responded_at || null,
+              c.created_at || new Date().toISOString(), c.updated_at || new Date().toISOString()
+            ]
+          );
+        } catch (err: any) {
+          console.warn(`Could not migrate local complaint ${c.id}:`, err.message);
+        }
+      }
+    }
+
+    console.log("Local JSON sync to PostgreSQL completed.");
+  } catch (err: any) {
+    console.warn("Sync local_db.json to PostgreSQL encountered a minor issue:", err.message);
   }
-  
-  if (!process.env.DATABASE_URL || process.env.DATABASE_URL.trim() === "") {
-    useLocalFallback = true;
-    loadLocalDb();
+}
+
+export async function query(text: string, params?: any[]) {
+  if (useLocalFallback || !process.env.DATABASE_URL || process.env.DATABASE_URL.trim() === "") {
+    if (!useLocalFallback) {
+      useLocalFallback = true;
+      loadLocalDb();
+    }
     return runLocalQuery(text, params);
   }
 
@@ -538,10 +672,8 @@ export async function query(text: string, params?: any[]) {
     const p = getPool();
     return await p.query(text, params);
   } catch (err: any) {
-    console.warn("PostgreSQL Query execution failed, triggering local fallback:", err.message);
-    useLocalFallback = true;
-    loadLocalDb();
-    return runLocalQuery(text, params);
+    console.error("PostgreSQL Query execution failed:", err.message);
+    throw err;
   }
 }
 
@@ -560,7 +692,7 @@ export async function initDb() {
     const p = getPool();
     await p.query("SELECT 1");
     console.log("Database connection successful. Initializing schemas & migrations...");
-    
+
     // Enable UUID extension
     await p.query(`CREATE EXTENSION IF NOT EXISTS "pgcrypto"`);
 
@@ -750,9 +882,12 @@ export async function initDb() {
     }
 
     console.log("Database initialized successfully.");
+    
+    // Automatically sync existing local JSON fallback data into PostgreSQL
+    await syncLocalDbToPostgres(p);
+
   } catch (err: any) {
-    console.warn("PostgreSQL initialization failed. Activating local fallback:", err.message);
-    useLocalFallback = true;
-    loadLocalDb();
+    console.error("PostgreSQL initialization failed:", err.message);
+    throw err;
   }
 }

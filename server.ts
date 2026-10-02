@@ -16,14 +16,19 @@ async function startServer() {
   const app = express();
   const PORT = 3000;
 
-  // Initialize Database asynchronously without blocking server startup
-  initDb()
-    .then(() => {
-      console.log("Database initialized successfully");
-    })
-    .catch((err) => {
-      console.error("Database initialization failed:", err);
-    });
+  let databaseReady = false;
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    try {
+      await initDb();
+      databaseReady = true;
+      break;
+    } catch (error) {
+      if (attempt === 3) throw error;
+      console.warn(`Database initialization attempt ${attempt} failed; retrying shortly.`, error);
+      await new Promise(resolve => setTimeout(resolve, attempt * 1000));
+    }
+  }
+  if (!databaseReady) throw new Error("Database initialization did not complete.");
 
   app.use(express.json({ limit: '100mb' }));
   app.use(express.urlencoded({ limit: '100mb', extended: true }));
@@ -208,26 +213,17 @@ async function startServer() {
   });
 
   app.post("/api/complaints/unread-counts", async (req, res) => {
-    const { lastSeenMap } = req.body;
-    if (!lastSeenMap) return res.status(400).json({ error: "Missing lastSeenMap" });
+    const visitedIds = Array.isArray(req.body?.visitedIds) ? req.body.visitedIds : [];
 
     try {
-      // Get all universities latest complaint count after their respective last seen time
-      const result = await query("SELECT id, created_at, university_id FROM complaints ORDER BY created_at DESC LIMIT 1000"); // Just get recent 1000 to count
-      const counts: Record<string, number> = {};
-      
-      for (const complaint of result.rows) {
-        const uniId = complaint.university_id;
-        if (!uniId) continue;
-        const lastSeenStr = lastSeenMap[uniId] || lastSeenMap["ALL"];
-        const lastSeen = lastSeenStr ? new Date(lastSeenStr).getTime() : 0;
-        const complaintTime = new Date(complaint.created_at).getTime();
-        
-        if (complaintTime > lastSeen) {
-          counts[uniId] = (counts[uniId] || 0) + 1;
-        }
-      }
-      res.json(counts);
+      const result = await query(
+        `SELECT university_id, COUNT(*)::int AS count
+         FROM complaints
+         WHERE id::text <> ALL($1::text[])
+         GROUP BY university_id`,
+        [visitedIds]
+      );
+      res.json(Object.fromEntries(result.rows.map(row => [row.university_id, row.count])));
     } catch (err) {
       console.error(err);
       res.status(500).json({ error: "Failed to fetch unread counts" });
@@ -300,6 +296,13 @@ async function startServer() {
 
     try {
       const result = await query("UPDATE complaints SET views_count = COALESCE(views_count, 0) + 1 WHERE id = $1 RETURNING views_count", [id]);
+      const userId = toUuid(req.body?.userId);
+      if (userId) {
+        await query(
+          "UPDATE department_notifications SET is_read = true, read_at = NOW() WHERE user_id = $1 AND complaint_id = $2",
+          [userId, id]
+        );
+      }
       res.json({ success: true, views_count: result.rows[0].views_count });
     } catch (err) {
       console.error(err);
@@ -564,6 +567,10 @@ async function startServer() {
     const universityId = toUuid(req.body.universityId);
     let evidenceUrl = req.body.evidenceUrl || null;
 
+    if (!studentId || !universityId || typeof category !== "string" || !category.trim() || typeof description !== "string" || !description.trim()) {
+      return res.status(400).json({ error: "A valid student, university, category, and description are required." });
+    }
+
     if (req.files && req.files.evidenceFile) {
       const file = req.files.evidenceFile as any;
       const base64Content = file.data.toString('base64');
@@ -627,37 +634,41 @@ async function startServer() {
       );
       const complaint = result.rows[0];
 
-      // Route notification to department admins
-      const deptAdminsRes = await query(
-        "SELECT id FROM users WHERE role = 'DEPT_ADMIN' AND university_id = $1 AND assigned_category = $2",
-        [universityId, category]
-      );
-      for (const admin of deptAdminsRes.rows) {
-        await query(
-          "INSERT INTO department_notifications (user_id, complaint_id) VALUES ($1, $2) ON CONFLICT DO NOTHING",
-          [admin.id, complaint.id]
+      try {
+        // Route notification to department admins
+        const deptAdminsRes = await query(
+          "SELECT id FROM users WHERE role = 'DEPT_ADMIN' AND university_id = $1 AND assigned_category = $2",
+          [universityId, category]
         );
-      }
-
-      // Route notification to university admins (UNI_ADMIN)
-      const uniAdminsRes = await query(
-        "SELECT id FROM users WHERE role = 'UNI_ADMIN' AND university_id = $1",
-        [universityId]
-      );
-      for (const admin of uniAdminsRes.rows) {
-        await query(
-          "INSERT INTO department_notifications (user_id, complaint_id) VALUES ($1, $2) ON CONFLICT DO NOTHING",
-          [admin.id, complaint.id]
-        );
-      }
-
-      if (mediaUrls && Array.isArray(mediaUrls)) {
-        for (const url of mediaUrls) {
-          await query("INSERT INTO media (complaint_id, url, type) VALUES ($1, $2, 'IMAGE')", [complaint.id, url]);
+        for (const admin of deptAdminsRes.rows) {
+          await query(
+            "INSERT INTO department_notifications (user_id, complaint_id) VALUES ($1, $2) ON CONFLICT DO NOTHING",
+            [admin.id, complaint.id]
+          );
         }
+
+        // Route notification to university admins (UNI_ADMIN)
+        const uniAdminsRes = await query(
+          "SELECT id FROM users WHERE role = 'UNI_ADMIN' AND university_id = $1",
+          [universityId]
+        );
+        for (const admin of uniAdminsRes.rows) {
+          await query(
+            "INSERT INTO department_notifications (user_id, complaint_id) VALUES ($1, $2) ON CONFLICT DO NOTHING",
+            [admin.id, complaint.id]
+          );
+        }
+
+        if (mediaUrls && Array.isArray(mediaUrls)) {
+          for (const url of mediaUrls) {
+            await query("INSERT INTO media (complaint_id, url, type) VALUES ($1, $2, 'IMAGE')", [complaint.id, url]);
+          }
+        }
+      } catch (followUpError) {
+        console.error("Complaint was saved, but follow-up notifications or media failed:", followUpError);
       }
 
-      res.json(complaint);
+      res.status(201).json(complaint);
     } catch (err) {
       console.error(err);
       res.status(500).json({ error: "Failed to submit complaint" });
@@ -796,7 +807,7 @@ async function startServer() {
     if (!userId) return res.status(400).json({ error: "Invalid User ID" });
     try {
       const result = await query(
-        `SELECT dn.*, c.description, c.category, s.full_name as student_name
+        `SELECT dn.*, c.description, c.category, c.university_id, s.full_name as student_name
          FROM department_notifications dn
          JOIN complaints c ON dn.complaint_id = c.id
          JOIN users s ON c.student_id = s.id
